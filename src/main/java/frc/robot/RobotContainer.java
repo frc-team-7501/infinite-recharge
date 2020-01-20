@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DriveTrain;
 
@@ -24,7 +25,9 @@ public class RobotContainer {
    * Attach joystick buttons to commands.
    */
   private void configureButtonBindings() {
-    // TODO
+    var stickTrigger = new JoystickButton(stick, 1);
+    stickTrigger.whenPressed(() -> teleopDriveCommand.setSpeedCoef(Constants.boostSpeedCoef));
+    stickTrigger.whenReleased(() -> teleopDriveCommand.setSpeedCoef(Constants.defaultSpeedCoef));
   }
 
   /**
