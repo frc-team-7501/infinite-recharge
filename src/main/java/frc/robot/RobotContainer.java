@@ -8,58 +8,63 @@ import frc.robot.commands.AlignTargetCommand;
 import frc.robot.commands.ShooterRampUpCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
-	// Create joysticks
-	private final Joystick							stick				= new Joystick(1);
-	private final XboxController				controller	= new XboxController(2);
-	// Create subsystems
-	private final DriveTrain						driveTrain	= new DriveTrain();
-	private final Shooter								shooter			= new Shooter();
-	// Create commands
-	private final TeleopDriveCommand		teleopDriveCommand		= new TeleopDriveCommand(driveTrain, () -> stick.getZ(), () -> stick.getY());
-	private final AlignTargetCommand		alignTargetCommand		= new AlignTargetCommand(driveTrain);
-	private final ShooterRampUpCommand	shooterRampUpCommand	= new ShooterRampUpCommand(shooter);
+  // Create joysticks
+  private final Joystick stick            = new Joystick(1);
+  private final XboxController controller = new XboxController(2);
+  // Create subsystems
+  private final DriveTrain driveTrain = new DriveTrain();
+  private final Limelight limelight   = new Limelight();
+  private final Shooter shooter       = new Shooter();
 
-	public RobotContainer() {
-		configureButtonBindings();
-		setDefaultCommands();
-	}
+  // Create commands
+  private final TeleopDriveCommand teleopDriveCommand     = new TeleopDriveCommand(driveTrain, () -> stick.getZ(), () -> stick.getY());
+  private final AlignTargetCommand alignTargetCommand     = new AlignTargetCommand(driveTrain, limelight);
+  private final ShooterRampUpCommand shooterRampUpCommand = new ShooterRampUpCommand(shooter);
 
-	/**
-	 * Attach joystick buttons to commands.
-	 */
-	private void configureButtonBindings() {
-		var stickTrigger      = new JoystickButton(stick, 1);
-		var stickAlignButton  = new JoystickButton(stick, 2);
+  public RobotContainer() {
+    configureButtonBindings();
+    setDefaultCommands();
+  }
 
-		var controllerA				= new JoystickButton(controller, 1);
+  /**
+   * Attach joystick buttons to commands.
+   */
+  private void configureButtonBindings() {
+    // Joystick buttons
+    var stickTriggerButton  = new JoystickButton(stick, 1);
+    var stickAlignButton    = new JoystickButton(stick, 2);
 
-		stickTrigger
-			.whenPressed(()   -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainBoostSpeedCoef))
-			.whenReleased(()  -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainDefaultSpeedCoef));
+    stickTriggerButton
+      .whenPressed(()   -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainBoostSpeedCoef))
+      .whenReleased(()  -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainDefaultSpeedCoef));
 
-		controllerA
-			.whenHeld(shooterRampUpCommand);
-		
-		stickAlignButton
-			.whenPressed(alignTargetCommand);
-	}
+    stickAlignButton
+      .whenHeld(alignTargetCommand);
 
-	/**
-	 * Set the default commands for subsystems.
-	 */
-	private void setDefaultCommands() {
-		driveTrain.setDefaultCommand(teleopDriveCommand);
-	}
+    // Controller buttons
+    var controllerAButton   = new JoystickButton(controller, 1);
+    
+    controllerAButton
+      .whenHeld(shooterRampUpCommand);
+  }
 
-	/**
-	 * Returns the selected autonomous command.
-	 * @return
-	 */
-	public Command getAutonomousCommand() {
-		// TODO
-		return null;
-	}
+  /**
+   * Set the default commands for subsystems.
+   */
+  private void setDefaultCommands() {
+    driveTrain.setDefaultCommand(teleopDriveCommand);
+  }
+
+  /**
+   * Returns the selected autonomous command.
+   * @return
+   */
+  public Command getAutonomousCommand() {
+    // TODO
+    return null;
+  }
 }

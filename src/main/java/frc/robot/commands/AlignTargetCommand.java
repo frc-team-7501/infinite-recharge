@@ -3,43 +3,45 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Limelight.LEDState;
 
 public class AlignTargetCommand extends PIDCommand {
-  private DriveTrain driveTrain;
+  // private final DriveTrain driveTrain;
+  private final Limelight limelight;
   
-  /**
-   * Creates a new AlignTargetCommand.
-   */
-  public AlignTargetCommand(DriveTrain driveTrain) {
+  public AlignTargetCommand(DriveTrain driveTrain, Limelight limelight) {
     super(
-      // The controller that the command will use
+      // PID controller
       new PIDController(0.04, 0, 0.005),
-      // This should return the measurement
-      () -> {
-        if (!driveTrain.getLimelightTargetValid()) {
-          return 10.0;
-        }
-        return driveTrain.getLimelightX();
-      },
-      // This should return the setpoint (can also be a constant)
+      // Measurement
+      () -> limelight.getValidTarget() ? limelight.getRawXOffset() : 10.0,
+      // The PID setpoint (0 so we can center the bot)
       () -> 0,
-      // This uses the output
-      output -> {
-        driveTrain.arcadeDrive(-output, 0);
-      }
+      // Output consumer
+      output -> driveTrain.arcadeDrive(-output, 0)
     );
 
-    getController().setTolerance(
-      1);
+    // this.driveTrain = driveTrain; TODO: assignment is unneeded
+    this.limelight  = limelight;
+    addRequirements(driveTrain, limelight);
 
-    this.driveTrain = driveTrain;
-    addRequirements(driveTrain);
+    // Tune the PID
+    getController().setTolerance(1);
   }
 
-  // Returns true when the command should end.
+  @Override
+  public void execute() {
+    limelight.setLEDState(LEDState.kSolid);
+    super.execute();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+  }
+
   @Override
   public boolean isFinished() {
-    // return false;
     return getController().atSetpoint();
   }
 }
