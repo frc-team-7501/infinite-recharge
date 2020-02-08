@@ -9,12 +9,13 @@ import frc.robot.subsystems.DriveTrain;
 public class TeleopDriveCommand extends CommandBase {
   private final DoubleSupplier xInput, yInput;
   private final DriveTrain driveTrain;
-  private double speedCoef = Constants.defaultSpeedCoef;
+  private double speedCoef = Constants.drivetrainDefaultSpeedCoef;
 
   public TeleopDriveCommand(DriveTrain driveTrain, DoubleSupplier xInput, DoubleSupplier yInput) {
     this.driveTrain = driveTrain;
-    this.xInput = xInput;
-    this.yInput = yInput;
+    this.xInput     = xInput;
+    this.yInput     = yInput;
+    
     addRequirements(driveTrain);
   }
 

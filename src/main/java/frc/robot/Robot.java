@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -23,7 +22,6 @@ public class Robot extends TimedRobot {
     limelightX = limelightNT.getEntry("tx");
     limelightY = limelightNT.getEntry("ty");
     limelightA = limelightNT.getEntry("ta");
-    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
