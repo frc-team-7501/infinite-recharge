@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignTargetCommand;
 import frc.robot.commands.ShooterRampUpCommand;
 import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -16,9 +17,10 @@ public class RobotContainer {
   private final Joystick stick            = new Joystick(1);
   private final XboxController controller = new XboxController(2);
   // Create subsystems
-  private final DriveTrain driveTrain = new DriveTrain();
-  private final Limelight limelight   = new Limelight();
-  private final Shooter shooter       = new Shooter();
+  private final DriveTrain driveTrain     = new DriveTrain();
+  private final Limelight limelight       = new Limelight();
+  private final Shooter shooter           = new Shooter();
+  private final ControlPanel controlPanel = new ControlPanel();
 
   // Create commands
   private final TeleopDriveCommand teleopDriveCommand     = new TeleopDriveCommand(driveTrain, () -> stick.getZ(), () -> stick.getY());
@@ -48,8 +50,13 @@ public class RobotContainer {
     // Controller buttons
     var controllerAButton   = new JoystickButton(controller, 1);
     
+    // controllerAButton
+    //   .whenHeld(shooterRampUpCommand);
+
     controllerAButton
-      .whenHeld(shooterRampUpCommand);
+      .whenPressed(() -> controlPanel.spinMotor(1))
+      .whenReleased(() -> controlPanel.stopMotor());
+    
   }
 
   /**
