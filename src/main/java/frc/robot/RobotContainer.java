@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignTargetCommand;
+import frc.robot.commands.ControlPanelPositionCommand;
+import frc.robot.commands.ControlPanelRotationCommand;
 import frc.robot.commands.ShooterRampUpCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.ControlPanel;
@@ -23,9 +25,11 @@ public class RobotContainer {
   private final ControlPanel controlPanel = new ControlPanel();
 
   // Create commands
-  private final TeleopDriveCommand teleopDriveCommand     = new TeleopDriveCommand(driveTrain, () -> stick.getZ(), () -> stick.getY());
+  private final TeleopDriveCommand teleopDriveCommand     = new TeleopDriveCommand(driveTrain, () -> stick.getX(), () -> -stick.getY());
   private final AlignTargetCommand alignTargetCommand     = new AlignTargetCommand(driveTrain, limelight);
   private final ShooterRampUpCommand shooterRampUpCommand = new ShooterRampUpCommand(shooter);
+  private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
+  private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -38,25 +42,28 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Joystick buttons
     var stickTriggerButton  = new JoystickButton(stick, 1);
-    var stickAlignButton    = new JoystickButton(stick, 2);
+    var stickThumbButton    = new JoystickButton(stick, 2);
 
     stickTriggerButton
       .whenPressed(()   -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainBoostSpeedCoef))
       .whenReleased(()  -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainDefaultSpeedCoef));
 
-    stickAlignButton
+    stickThumbButton
       .whenHeld(alignTargetCommand);
 
     // Controller buttons
-    var controllerAButton   = new JoystickButton(controller, 1);
+    var controllerAButton     = new JoystickButton(controller, 1);
+    var controllerBackButton  = new JoystickButton(controller, 7);
+    var controllerStartButton = new JoystickButton(controller, 8);
     
-    // controllerAButton
-    //   .whenHeld(shooterRampUpCommand);
-
     controllerAButton
-      .whenPressed(() -> controlPanel.spinMotor(1))
-      .whenReleased(() -> controlPanel.stopMotor());
-    
+      .whenHeld(shooterRampUpCommand);
+
+    controllerBackButton
+      .whenPressed(controlPanelPositionCommand);
+
+    controllerStartButton
+      .whenPressed(controlPanelRotationCommand);
   }
 
   /**

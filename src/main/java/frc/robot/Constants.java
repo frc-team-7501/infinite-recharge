@@ -10,10 +10,14 @@ public final class Constants {
       public static final int pigeonIMU = 5;
 
       // DriveTrain motors
-      public static final int talonBR = 11;
-      public static final int talonFR = 12;
-      public static final int talonBL = 13;
-      public static final int talonFL = 14;
+      // public static final int talonBR = 11;
+      // public static final int talonFR = 12;
+      // public static final int talonBL = 13;
+      // public static final int talonFL = 14;
+      public static final int talonBR = 4;
+      public static final int talonFR = 3;
+      public static final int talonBL = 2;
+      public static final int talonFL = 1;
 
       // Shooter motors
       public static final int sparkMaxBrushlessShooterA = 41;

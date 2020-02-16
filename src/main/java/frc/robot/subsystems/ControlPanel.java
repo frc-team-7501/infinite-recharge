@@ -18,10 +18,10 @@ public class ControlPanel extends SubsystemBase {
   private final ColorSensorV3 colorSensor = new ColorSensorV3(colorSensorPort);
   private final ColorMatch colorMatcher   = new ColorMatch();
 
-  public final Color colorBlue    = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  public final Color colorGreen   = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  public final Color colorRed     = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  public final Color colorYellow  = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  public final Color colorBlue    = ColorMatch.makeColor(0.125, 0.429, 0.446);
+  public final Color colorGreen   = ColorMatch.makeColor(0.170, 0.578, 0.251);
+  public final Color colorRed     = ColorMatch.makeColor(0.509, 0.352, 0.139);
+  public final Color colorYellow  = ColorMatch.makeColor(0.315, 0.563, 0.122);
 
   public ControlPanel() {
     // Configure Spark MAX
@@ -85,7 +85,11 @@ public class ControlPanel extends SubsystemBase {
   
   @Override
   public void periodic() {
+    var color =  colorSensor.getColor();
     SmartDashboard.putString("Color Sensor Color", getColorName(getCurrentColor()));
+    SmartDashboard.putNumber("Color Sensor R", color.red);
+    SmartDashboard.putNumber("Color Sensor G", color.green);
+    SmartDashboard.putNumber("Color Sensor B", color.blue);
     SmartDashboard.putNumber("Color Sensor Confidence", getConfidence());
   }
 }
