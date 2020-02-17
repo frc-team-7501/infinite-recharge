@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.geometry.Point2D;
 
@@ -23,9 +24,10 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     // TODO: SmartDashboard
+    SmartDashboard.putNumber("Limelight X", getRawXOffset());
   }
 
-  public boolean getValidTarget() {
+  public boolean validTarget() {
     var tv = limelightTable.getEntry("tv").getDouble(0);
     return tv == 1;
   }
@@ -46,7 +48,7 @@ public class Limelight extends SubsystemBase {
    * @return the Point2D, or null if no target is visible.
    */
   public Point2D getTargetCenter() {
-    if (!getValidTarget())
+    if (!validTarget())
       return null;
     Point2D point = new Point2D(getRawXOffset(), getRawYOffset());
     return point;
