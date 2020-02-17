@@ -7,6 +7,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -14,12 +15,12 @@ public class Shooter extends SubsystemBase {
   private final CANSparkMax shooterA = new CANSparkMax(Constants.Ports.CAN.sparkMaxBrushlessShooterA, MotorType.kBrushless);
   private final CANSparkMax shooterB = new CANSparkMax(Constants.Ports.CAN.sparkMaxBrushlessShooterB, MotorType.kBrushless);
 
-  private final double kP = 6e-5;
-  private final double kI = 0;
+  private final double kP = 0.00006;
+  private final double kI = 0.00001;
   private final double kD = 0;
-  private final double kFF = 0.000015;
-  private final double maxOutput = 1;
-  private final double minOutput = -1;
+  private final double kFF = 0;
+  private final double maxOutput = 0.85;
+  private final double minOutput = 0;
   private final double maxRPM = 5700;
   
   private CANPIDController pidControllerA = shooterA.getPIDController();
@@ -45,6 +46,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void fire(double velocity) {
+    SmartDashboard.putNumber("shooter target RPM", velocity * maxRPM);
+    SmartDashboard.putNumber("shooter current RPM", shooterA.getEncoder().getVelocity());
     pidControllerA.setReference(velocity * maxRPM, ControlType.kVelocity);
     pidControllerB.setReference(-velocity * maxRPM, ControlType.kVelocity);
   }

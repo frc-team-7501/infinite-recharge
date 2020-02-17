@@ -6,7 +6,7 @@ import frc.robot.subsystems.Shooter;
 public class ShooterRampUpCommand extends CommandBase {
   private final Shooter shooter;
 
-  private double velocity = 0.80; // TODO: get this from a DoubleProvider that gets data from the Limelight
+  private double velocity = 0.50; // TODO: get this from a DoubleProvider that gets data from the Limelight
   
   public ShooterRampUpCommand(Shooter shooter) {
     this.shooter = shooter;
