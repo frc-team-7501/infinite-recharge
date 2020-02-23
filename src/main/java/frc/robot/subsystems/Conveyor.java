@@ -26,10 +26,15 @@ public class Conveyor extends SubsystemBase {
   private final WPI_VictorSPX motorStaging = new WPI_VictorSPX(Constants.Ports.CAN.victorSPX);
   private final WPI_TalonSRX motorConveyor = new WPI_TalonSRX(Constants.Ports.CAN.talonC);
   
-public void moveConveyor(double speed) {
-  motorConveyor.set(ControlMode.PercentOutput, speed); 
-  motorStaging.set(ControlMode.PercentOutput, speed);
-}
+  public void moveConveyor(double speed) {
+    motorConveyor.set(ControlMode.PercentOutput, speed);
+    motorStaging.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void stop() {
+    motorConveyor.stopMotor();
+    motorStaging.stopMotor();
+  }
 
   /**
    * Creates a new instance of the subsystem.

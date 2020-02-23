@@ -16,10 +16,12 @@ public class ConveyorFeedCommand extends CommandBase {
 
   @Override
   public void execute() {
+    conveyor.moveConveyor(1.0);
   }
 
   @Override
   public void end(boolean interrupted) {
+    conveyor.stop();
   }
 
   @Override
