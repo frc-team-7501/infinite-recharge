@@ -9,11 +9,15 @@ public final class Constants {
     public final class CAN {
       public static final int pigeonIMU = 5;
 
+      // Conveyor motors
+      public static final int victorSPX = 6;
+
       // DriveTrain motors
       // public static final int talonBR = 11;
       // public static final int talonFR = 12;
       // public static final int talonBL = 13;
       // public static final int talonFL = 14;
+      public static final int talonC = 10;  
       public static final int talonBR = 4;
       public static final int talonFR = 3;
       public static final int talonBL = 2;

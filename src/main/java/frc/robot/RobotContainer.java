@@ -60,6 +60,7 @@ public class RobotContainer {
     var controllerAButton     = new JoystickButton(controller, 1);
     var controllerBackButton  = new JoystickButton(controller, 7);
     var controllerStartButton = new JoystickButton(controller, 8);
+    var controllerYButton     = new JoystickButton(controller, 4);
     
     controllerAButton
       .whenHeld(shooterRampUpCommand);
@@ -69,6 +70,9 @@ public class RobotContainer {
 
     controllerStartButton
       .whenPressed(controlPanelRotationCommand);
+
+    controllerYButton
+      .whenPressed(conveyorFeedCommand);
   }
 
   /**
