@@ -8,6 +8,7 @@ import frc.robot.commands.AlignTargetCommand;
 import frc.robot.commands.ControlPanelPositionCommand;
 import frc.robot.commands.ControlPanelRotationCommand;
 import frc.robot.commands.ConveyorFeedCommand;
+import frc.robot.commands.ConveyorStagingCommand;
 import frc.robot.commands.ShooterRampUpCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.ControlPanel;
@@ -15,6 +16,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Staging;
 
 public class RobotContainer {
   // Create joysticks
@@ -26,6 +28,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final ControlPanel controlPanel = new ControlPanel();
   private final Conveyor conveyor = new Conveyor();
+  private final Staging staging = new Staging(); 
 
   // Create commands
   private final TeleopDriveCommand teleopDriveCommand = new TeleopDriveCommand(driveTrain, () -> stick.getX(),
@@ -35,6 +38,7 @@ public class RobotContainer {
   private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
   private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
   private final ConveyorFeedCommand conveyorFeedCommand = new ConveyorFeedCommand(conveyor);
+  private final ConveyorStagingCommand conveyorStagingCommand = new ConveyorStagingCommand(staging); 
 
   public RobotContainer() {
     configureButtonBindings();
@@ -58,9 +62,10 @@ public class RobotContainer {
 
     // Controller buttons
     var controllerAButton     = new JoystickButton(controller, 1);
+    var controllerBButton     = new JoystickButton(controller, 2);
+    var controllerYButton     = new JoystickButton(controller, 4);
     var controllerBackButton  = new JoystickButton(controller, 7);
     var controllerStartButton = new JoystickButton(controller, 8);
-    var controllerYButton     = new JoystickButton(controller, 4);
     
     controllerAButton
       .whenHeld(shooterRampUpCommand);
@@ -72,7 +77,10 @@ public class RobotContainer {
       .whenPressed(controlPanelRotationCommand);
 
     controllerYButton
-      .whenPressed(conveyorFeedCommand);
+      .whenHeld(conveyorFeedCommand);
+
+    controllerBButton
+      .whenHeld(conveyorStagingCommand); 
   }
 
   /**

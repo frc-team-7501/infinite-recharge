@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Staging;
 
-public class ConveyorFeedCommand extends CommandBase {
-  private final Conveyor conveyor;
-  
-  public ConveyorFeedCommand(Conveyor conveyor) {
-    this.conveyor = conveyor;
+public class ConveyorStagingCommand extends CommandBase {
+  private final Staging staging; 
+
+  public ConveyorStagingCommand(Staging staging) {
+    this.staging = staging; 
   }
 
   @Override
@@ -16,12 +16,12 @@ public class ConveyorFeedCommand extends CommandBase {
 
   @Override
   public void execute() {
-    conveyor.moveConveyor(0.5);
+    staging.moveStaging(-0.65);
   }
 
   @Override
   public void end(boolean interrupted) {
-    conveyor.stop();
+    staging.stop(); 
   }
 
   @Override
