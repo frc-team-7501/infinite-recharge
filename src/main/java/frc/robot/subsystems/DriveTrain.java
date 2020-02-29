@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -15,16 +16,16 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_VictorSPX motorFL, motorFR, motorBL, motorBR;
   private final SpeedControllerGroup groupL, groupR;
   private final DifferentialDrive differentialDrive;
-  // Pigeon IMU (gyro)
-  // private PigeonIMU pigeonIMU = new PigeonIMU(Constants.Ports.CAN.pigeonIMU);
+  private PigeonIMU pigeonIMU = new PigeonIMU(Constants.Ports.CAN.pigeonIMU);
   
   public DriveTrain() {
+    // Initialize motor controllers
     motorFL = new WPI_VictorSPX(Constants.Ports.CAN.talonFL);
     motorFR = new WPI_VictorSPX(Constants.Ports.CAN.talonFR);
     motorBL = new WPI_VictorSPX(Constants.Ports.CAN.talonBL);
     motorBR = new WPI_VictorSPX(Constants.Ports.CAN.talonBR);
 
-    // Configure the Talons
+    // Configure motor controllers
     motorFL.setNeutralMode(NeutralMode.Brake);
     motorFR.setNeutralMode(NeutralMode.Brake);
     motorBL.setNeutralMode(NeutralMode.Brake);
@@ -40,11 +41,11 @@ public class DriveTrain extends SubsystemBase {
     differentialDrive.arcadeDrive(y, x);
   }
 
-  // public double getGyroYaw() {
-  //   double[] ypr = new double[3];
-  //   pigeonIMU.getYawPitchRoll(ypr);
-  //   return ypr[0]; // TODO: may need to be normalized.
-  // }
+  public double getGyroYaw() {
+    double[] ypr = new double[3];
+    pigeonIMU.getYawPitchRoll(ypr);
+    return ypr[0]; // TODO: may need to be normalized.
+  }
 
   @Override
   public void periodic() {

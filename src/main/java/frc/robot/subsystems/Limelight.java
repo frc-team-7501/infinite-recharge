@@ -23,7 +23,6 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // TODO: SmartDashboard
     SmartDashboard.putNumber("Limelight X", getRawXOffset());
   }
 

@@ -6,22 +6,29 @@ public final class Constants {
 
   
   public final class Ports {
+    public final class I2C {
+      public static final int multiplexer = 0x70;
+    }
+    public final class I2CMUX {
+      public static final int colorSensorControlPanel   = 0;
+      public static final int colorSensorConveyorBottom = 1;
+      public static final int colorSensorConveyorMiddle = 2;
+      public static final int colorSensorConveyorTop    = 3;
+    }
+
     public final class CAN {
+      // Misc. CAN devices
       public static final int pigeonIMU = 5;
 
       // Conveyor motors
       public static final int victorSPX = 6;
+      public static final int talonConveyor = 10;  
 
       // DriveTrain motors
-      // public static final int talonBR = 11;
-      // public static final int talonFR = 12;
-      // public static final int talonBL = 13;
-      // public static final int talonFL = 14;
-      public static final int talonC = 10;  
-      public static final int talonBR = 4;
-      public static final int talonFR = 3;
-      public static final int talonBL = 2;
       public static final int talonFL = 1;
+      public static final int talonBL = 2;
+      public static final int talonFR = 3;
+      public static final int talonBR = 4;
 
       // Shooter motors
       public static final int sparkMaxBrushlessShooterA = 41;
