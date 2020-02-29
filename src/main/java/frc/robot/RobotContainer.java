@@ -28,8 +28,7 @@ public class RobotContainer {
   private final Conveyor conveyor = new Conveyor();
 
   // Create commands
-  private final TeleopDriveCommand teleopDriveCommand = new TeleopDriveCommand(driveTrain, () -> stick.getX(),
-      () -> -stick.getY());
+  private final TeleopDriveCommand teleopDriveCommand = new TeleopDriveCommand(driveTrain, () -> stick.getX(), () -> -stick.getY());
   private final AlignTargetCommand alignTargetCommand = new AlignTargetCommand(driveTrain, limelight);
   private final ShooterRampUpCommand shooterRampUpCommand = new ShooterRampUpCommand(shooter);
   private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
