@@ -99,7 +99,7 @@ public class Limelight extends SubsystemBase {
         resolvedState = 3;
         break;
       default:
-        throw new Error("Invalid LED status.");
+        throw new Error("Invalid LED state.");
     }
     limelightTable.getEntry("ledMode").setNumber(resolvedState);
   }

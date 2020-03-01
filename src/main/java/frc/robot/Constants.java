@@ -1,10 +1,6 @@
 package frc.robot;
 
-public final class Constants {
-  public static final double drivetrainDefaultSpeedCoef = 0.65;
-  public static final double drivetrainBoostSpeedCoef		= 1.0;
-
-  
+public final class Constants {  
   public final class Ports {
     public final class I2C {
       public static final int multiplexer = 0x70;
@@ -17,25 +13,24 @@ public final class Constants {
     }
 
     public final class CAN {
+      // VictorSPX
+      public static final int victor_DriveFL        = 1;
+      public static final int victor_DriveBL        = 2;
+      public static final int victor_DriveFR        = 3;
+      public static final int victor_DriveBR        = 4;
+      public static final int victor_ConveyorTop    = 5;
+      public static final int victor_ConveyorBottom = 6;
+
+      // Spark MAX
+      public static final int sparkmax_ShooterR     = 41;
+      public static final int sparkmax_ShooterL     = 42;
+      public static final int sparkmax_ControlPanel = 43;
+      public static final int sparkmax_IntakeArm    = 44;
+      public static final int sparkmax_Winch        = 45;
+      public static final int sparkmax_HookLift     = 46;
+
       // Misc. CAN devices
-      public static final int pigeonIMU = 5;
-
-      // Conveyor motors
-      public static final int victorSPX = 6;
-      public static final int talonConveyor = 10;  
-
-      // DriveTrain motors
-      public static final int talonFL = 1;
-      public static final int talonBL = 2;
-      public static final int talonFR = 3;
-      public static final int talonBR = 4;
-
-      // Shooter motors
-      public static final int sparkMaxBrushlessShooterA = 41;
-      public static final int sparkMaxBrushlessShooterB = 42;
-
-      // Control Panel motor
-      public static final int sparkMaxBrushlessControlPanel = 43;
+      public static final int pigeonIMU             = 50;
     }
   }
 }

@@ -20,10 +20,10 @@ public class DriveTrain extends SubsystemBase {
   
   public DriveTrain() {
     // Initialize motor controllers
-    motorFL = new WPI_VictorSPX(Constants.Ports.CAN.talonFL);
-    motorFR = new WPI_VictorSPX(Constants.Ports.CAN.talonFR);
-    motorBL = new WPI_VictorSPX(Constants.Ports.CAN.talonBL);
-    motorBR = new WPI_VictorSPX(Constants.Ports.CAN.talonBR);
+    motorFL = new WPI_VictorSPX(Constants.Ports.CAN.victor_DriveFL);
+    motorFR = new WPI_VictorSPX(Constants.Ports.CAN.victor_DriveFR);
+    motorBL = new WPI_VictorSPX(Constants.Ports.CAN.victor_DriveBL);
+    motorBR = new WPI_VictorSPX(Constants.Ports.CAN.victor_DriveBR);
 
     // Configure motor controllers
     motorFL.setNeutralMode(NeutralMode.Brake);
@@ -34,6 +34,7 @@ public class DriveTrain extends SubsystemBase {
     // Create groups and DifferentialDrive
     groupL = new SpeedControllerGroup(motorFL, motorBL);
     groupR = new SpeedControllerGroup(motorFR, motorBR);
+
     differentialDrive = new DifferentialDrive(groupL, groupR);
   }
 

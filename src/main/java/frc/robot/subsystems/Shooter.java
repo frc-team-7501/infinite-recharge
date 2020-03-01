@@ -7,18 +7,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  private final CANSparkMax shooterA = new CANSparkMax(Constants.Ports.CAN.sparkMaxBrushlessShooterA, MotorType.kBrushless);
-  private final CANSparkMax shooterB = new CANSparkMax(Constants.Ports.CAN.sparkMaxBrushlessShooterB, MotorType.kBrushless);
+  private final CANSparkMax shooterR = new CANSparkMax(Constants.Ports.CAN.sparkmax_ShooterR, MotorType.kBrushless);
+  private final CANSparkMax shooterL = new CANSparkMax(Constants.Ports.CAN.sparkmax_ShooterL, MotorType.kBrushless);
 
   public Shooter() {
-    shooterB.follow(shooterA, true);
+    // Configure Spark MAXs
+    shooterR.restoreFactoryDefaults();
+    shooterL.restoreFactoryDefaults();
+    shooterL.follow(shooterR, true);
   }
 
   public void fire(double velocity) {
-    shooterA.set(velocity);
+    shooterR.set(velocity);
   }
 
   public void stop() {
-    shooterA.stopMotor();
+    shooterR.stopMotor();
   }
 }

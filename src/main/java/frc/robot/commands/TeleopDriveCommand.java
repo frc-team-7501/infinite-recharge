@@ -3,13 +3,15 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
 public class TeleopDriveCommand extends CommandBase {
+  public static final double SPEED_BASE  = 0.6;
+  public static final double SPEED_BOOST = 1.0;
+  
   private final DoubleSupplier xInput, yInput;
   private final DriveTrain driveTrain;
-  private double speedCoef = Constants.drivetrainDefaultSpeedCoef;
+  private double speedCoef = SPEED_BASE;
 
   public TeleopDriveCommand(DriveTrain driveTrain, DoubleSupplier xInput, DoubleSupplier yInput) {
     this.driveTrain = driveTrain;

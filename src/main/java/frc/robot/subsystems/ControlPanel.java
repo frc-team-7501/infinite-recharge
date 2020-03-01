@@ -13,7 +13,7 @@ import frc.robot.utils.i2c.RevColorSensorV3Mux;
 
 public class ControlPanel extends SubsystemBase {
   private final RevColorSensorV3Mux colorSensor = new RevColorSensorV3Mux(0);
-  private final CANSparkMax spinnerMotor  = new CANSparkMax(Constants.Ports.CAN.sparkMaxBrushlessControlPanel, MotorType.kBrushless);
+  private final CANSparkMax spinnerMotor  = new CANSparkMax(Constants.Ports.CAN.sparkmax_ControlPanel, MotorType.kBrushless);
   
   public final Color colorBlue          = ColorMatch.makeColor(0.125, 0.429, 0.446);
   public final Color colorGreen         = ColorMatch.makeColor(0.170, 0.578, 0.251);

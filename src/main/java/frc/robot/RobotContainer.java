@@ -2,38 +2,49 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.AlignTargetCommand;
 import frc.robot.commands.ControlPanelPositionCommand;
 import frc.robot.commands.ControlPanelRotationCommand;
-import frc.robot.commands.ConveyorFeedCommand;
+import frc.robot.commands.ConveyorBottomMoveCommand;
+import frc.robot.commands.ConveyorTopMoveCommand;
+import frc.robot.commands.IntakeArmManualCommand;
 import frc.robot.commands.ShooterRampUpCommand;
 import frc.robot.commands.TeleopDriveCommand;
+
 import frc.robot.subsystems.ControlPanel;
-import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.ConveyorBottom;
+import frc.robot.subsystems.ConveyorTop;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
   // Create joysticks
-  private final Joystick stick = new Joystick(1);
-  private final XboxController controller = new XboxController(2);
+  private final Joystick        stick       = new Joystick(1);
+  private final XboxController  controller  = new XboxController(2);
   // Create subsystems
-  private final DriveTrain driveTrain = new DriveTrain();
-  private final Limelight limelight = new Limelight();
-  private final Shooter shooter = new Shooter();
-  private final ControlPanel controlPanel = new ControlPanel();
-  private final Conveyor conveyor = new Conveyor();
+  private final DriveTrain      driveTrain      = new DriveTrain();
+  private final Limelight       limelight       = new Limelight();
+  private final Shooter         shooter         = new Shooter();
+  private final ControlPanel    controlPanel    = new ControlPanel();
+  private final ConveyorTop     conveyorTop     = new ConveyorTop();
+  private final ConveyorBottom  conveyorBottom  = new ConveyorBottom();
+  private final IntakeArm       intakeArm       = new IntakeArm();
 
   // Create commands
-  private final TeleopDriveCommand teleopDriveCommand = new TeleopDriveCommand(driveTrain, () -> stick.getX(), () -> -stick.getY());
-  private final AlignTargetCommand alignTargetCommand = new AlignTargetCommand(driveTrain, limelight);
-  private final ShooterRampUpCommand shooterRampUpCommand = new ShooterRampUpCommand(shooter);
+  private final TeleopDriveCommand          teleopDriveCommand          = new TeleopDriveCommand(driveTrain, () -> stick.getX(), () -> -stick.getY());
+  private final AlignTargetCommand          alignTargetCommand          = new AlignTargetCommand(driveTrain, limelight);
+  private final ShooterRampUpCommand        shooterRampUpCommand        = new ShooterRampUpCommand(shooter);
   private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
   private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
-  private final ConveyorFeedCommand conveyorFeedCommand = new ConveyorFeedCommand(conveyor);
+  private final ConveyorTopMoveCommand      conveyorTopMoveCommand      = new ConveyorTopMoveCommand(conveyorTop);
+  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom);
+  private final IntakeArmManualCommand      intakeArmManualCommand      = new IntakeArmManualCommand(intakeArm, () -> controller.getY(Hand.kLeft));
 
   public RobotContainer() {
     configureButtonBindings();
@@ -44,34 +55,40 @@ public class RobotContainer {
    * Attach joystick buttons to commands.
    */
   private void configureButtonBindings() {
+    // ===========================================================
     // Joystick buttons
+    // ===========================================================
+
     var stickTriggerButton  = new JoystickButton(stick, 1);
     var stickThumbButton    = new JoystickButton(stick, 2);
 
     stickTriggerButton
-      .whenPressed(()   -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainBoostSpeedCoef))
-      .whenReleased(()  -> teleopDriveCommand.setSpeedCoef(Constants.drivetrainDefaultSpeedCoef));
-
+      .whenPressed(()   -> teleopDriveCommand.setSpeedCoef(TeleopDriveCommand.SPEED_BOOST))
+      .whenReleased(()  -> teleopDriveCommand.setSpeedCoef(TeleopDriveCommand.SPEED_BASE));
     stickThumbButton
       .whileActiveOnce(alignTargetCommand);
 
+    // ===========================================================
     // Controller buttons
+    // ===========================================================
+
     var controllerAButton     = new JoystickButton(controller, 1);
-    var controllerYButton     = new JoystickButton(controller, 4);
+    // var controllerYButton     = new JoystickButton(controller, 4);
+    var controllerBumperL     = new JoystickButton(controller, 5);
+    var controllerBumperR     = new JoystickButton(controller, 6);
     var controllerBackButton  = new JoystickButton(controller, 7);
     var controllerStartButton = new JoystickButton(controller, 8);
     
     controllerAButton
       .whenHeld(shooterRampUpCommand);
-
     controllerBackButton
       .whenPressed(controlPanelPositionCommand);
-
     controllerStartButton
       .whenPressed(controlPanelRotationCommand);
-
-    controllerYButton
-      .whenHeld(conveyorFeedCommand);
+    controllerBumperL
+      .whenHeld(conveyorTopMoveCommand);
+    controllerBumperR
+      .whenHeld(conveyorBottomMoveCommand);
   }
 
   /**
@@ -79,6 +96,7 @@ public class RobotContainer {
    */
   private void setDefaultCommands() {
     driveTrain.setDefaultCommand(teleopDriveCommand);
+    intakeArm.setDefaultCommand(intakeArmManualCommand); // TODO: this is for debugging only
   }
 
   /**

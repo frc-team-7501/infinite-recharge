@@ -20,10 +20,9 @@ public class AlignTargetCommand extends PIDCommand {
       // The PID setpoint (0 so we can center the bot)
       () -> 0,
       // Output consumer
-      output -> driveTrain.arcadeDrive(-Math.copySign(Math.max(Math.abs(output), 0.4), output), 0)
+      output -> driveTrain.arcadeDrive(-Math.copySign(Math.min(Math.abs(output), 0.4), output), 0)
     );
 
-    // this.driveTrain = driveTrain; TODO: assignment is unneeded
     this.limelight = limelight;
     addRequirements(driveTrain, limelight);
 
