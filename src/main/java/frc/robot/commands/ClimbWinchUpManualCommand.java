@@ -3,16 +3,16 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorBottom;
+import frc.robot.subsystems.Climber;
 
-public class ConveyorBottomMoveCommand extends CommandBase {
-  private final ConveyorBottom conveyorBottom;
+public class ClimbWinchUpManualCommand extends CommandBase {
+  private final Climber climber;
   private final DoubleSupplier supplier;
   
-  public ConveyorBottomMoveCommand(ConveyorBottom conveyorBottom, DoubleSupplier supplier) {
-    this.conveyorBottom = conveyorBottom;
+  public ClimbWinchUpManualCommand(Climber climber, DoubleSupplier supplier) {
+    this.climber = climber;
     this.supplier = supplier;
-    addRequirements(conveyorBottom);
+    addRequirements(climber);
   }
 
   @Override
@@ -21,12 +21,12 @@ public class ConveyorBottomMoveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    conveyorBottom.move(supplier.getAsDouble());
+    climber.moveWinch(supplier.getAsDouble());
   }
 
   @Override
   public void end(boolean interrupted) {
-    conveyorBottom.stop();
+    climber.stopWinch();
   }
 
   @Override

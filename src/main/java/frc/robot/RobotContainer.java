@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.AlignTargetCommand;
+import frc.robot.commands.ClimbWinchUpManualCommand;
 import frc.robot.commands.ControlPanelPositionCommand;
 import frc.robot.commands.ControlPanelRotationCommand;
 import frc.robot.commands.ConveyorBottomMoveCommand;
@@ -14,7 +15,7 @@ import frc.robot.commands.ConveyorTopMoveCommand;
 import frc.robot.commands.IntakeArmManualCommand;
 import frc.robot.commands.ShooterRampUpCommand;
 import frc.robot.commands.TeleopDriveCommand;
-
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.ConveyorBottom;
 import frc.robot.subsystems.ConveyorTop;
@@ -35,6 +36,7 @@ public class RobotContainer {
   private final ConveyorTop     conveyorTop     = new ConveyorTop();
   private final ConveyorBottom  conveyorBottom  = new ConveyorBottom();
   private final IntakeArm       intakeArm       = new IntakeArm();
+  private final Climber         climber         = new Climber();
 
   // Create commands
   private final TeleopDriveCommand          teleopDriveCommand          = new TeleopDriveCommand(driveTrain, () -> stick.getX(), () -> -stick.getY());
@@ -42,9 +44,10 @@ public class RobotContainer {
   private final ShooterRampUpCommand        shooterRampUpCommand        = new ShooterRampUpCommand(shooter);
   private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
   private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
-  private final ConveyorTopMoveCommand      conveyorTopMoveCommand      = new ConveyorTopMoveCommand(conveyorTop);
-  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom);
+  private final ConveyorTopMoveCommand      conveyorTopMoveCommand      = new ConveyorTopMoveCommand(conveyorTop, () -> controller.getTriggerAxis(Hand.kLeft) * 0.5 * (controller.getRawButton(5) ? -1 : 1));
+  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * 0.5 * (controller.getRawButton(6) ? -1 : 1));
   private final IntakeArmManualCommand      intakeArmManualCommand      = new IntakeArmManualCommand(intakeArm, () -> controller.getY(Hand.kLeft));
+  private final ClimbWinchUpManualCommand   climbWinchUpManualCommand   = new ClimbWinchUpManualCommand(climber, () -> controller.getY(Hand.kRight));
 
   public RobotContainer() {
     configureButtonBindings();
@@ -85,10 +88,10 @@ public class RobotContainer {
       .whenPressed(controlPanelPositionCommand);
     controllerStartButton
       .whenPressed(controlPanelRotationCommand);
-    controllerBumperL
-      .whenHeld(conveyorTopMoveCommand);
-    controllerBumperR
-      .whenHeld(conveyorBottomMoveCommand);
+    // controllerBumperL
+    //   .whenHeld(conveyorTopMoveCommand);
+    // controllerBumperR
+    //   .whenHeld(conveyorBottomMoveCommand);
   }
 
   /**
@@ -97,6 +100,9 @@ public class RobotContainer {
   private void setDefaultCommands() {
     driveTrain.setDefaultCommand(teleopDriveCommand);
     intakeArm.setDefaultCommand(intakeArmManualCommand); // TODO: this is for debugging only
+    climber.setDefaultCommand(climbWinchUpManualCommand);
+    conveyorBottom.setDefaultCommand(conveyorBottomMoveCommand);
+    conveyorTop.setDefaultCommand(conveyorTopMoveCommand);
   }
 
   /**

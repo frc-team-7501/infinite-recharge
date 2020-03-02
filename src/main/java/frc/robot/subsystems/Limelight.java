@@ -19,6 +19,7 @@ public class Limelight extends SubsystemBase {
   
   public Limelight() {
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    setLEDState(LEDState.kOff);
   }
 
   @Override

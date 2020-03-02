@@ -14,13 +14,14 @@ public class AlignTargetCommand extends PIDCommand {
   public AlignTargetCommand(DriveTrain driveTrain, Limelight limelight) {
     super(
       // PID controller
-      new PIDController(0.025, 0.00029, 0.0019),
+      new PIDController(0.75, 0.12, 0.5),
       // Measurement
       () -> limelight.validTarget() ? limelight.getRawXOffset() : 10.0,
       // The PID setpoint (0 so we can center the bot)
       () -> 0,
       // Output consumer
-      output -> driveTrain.arcadeDrive(-Math.copySign(Math.min(Math.abs(output), 0.4), output), 0)
+      // output -> driveTrain.arcadeDrive(-Math.copySign(Math.min(Math.abs(output), 0.4), output), 0)
+      output -> driveTrain.arcadeDrive(-output, 0)
     );
 
     this.limelight = limelight;
@@ -51,11 +52,12 @@ public class AlignTargetCommand extends PIDCommand {
 
   @Override
   public void end(boolean interrupted) {
-    // limelight.setLEDState(LEDState.kOff);
+    limelight.setLEDState(LEDState.kOff);
   }
 
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    // return getController().atSetpoint();
+    return false;
   }
 }

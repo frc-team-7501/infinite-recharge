@@ -10,7 +10,8 @@ public class ConveyorBottom extends SubsystemBase {
   private static final WPI_VictorSPX motor = new WPI_VictorSPX(Constants.Ports.CAN.victor_ConveyorBottom);
   
   public ConveyorBottom() {
-
+    // Configure VictorSPX
+    motor.setInverted(true);
   }
 
   public void move(double speed) {

@@ -1,13 +1,17 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorTop;
 
 public class ConveyorTopMoveCommand extends CommandBase {
   private final ConveyorTop conveyorTop;
+  private final DoubleSupplier supplier;
   
-  public ConveyorTopMoveCommand(ConveyorTop conveyorTop) {
+  public ConveyorTopMoveCommand(ConveyorTop conveyorTop, DoubleSupplier supplier) {
     this.conveyorTop = conveyorTop;
+    this.supplier = supplier;
     addRequirements(conveyorTop);
   }
 
@@ -17,7 +21,7 @@ public class ConveyorTopMoveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    conveyorTop.move(0.5);
+    conveyorTop.move(supplier.getAsDouble());
   }
 
   @Override

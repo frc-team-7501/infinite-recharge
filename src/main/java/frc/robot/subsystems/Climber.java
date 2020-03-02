@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,7 +17,24 @@ public class Climber extends SubsystemBase {
     hook.restoreFactoryDefaults();
   }
 
+  public void moveWinch(double speed) {
+    winch.set(speed);
+  }
+
+  public void moveHook(double speed) {
+    hook.set(speed);
+  }
+
+  public void stopWinch() {
+    winch.stopMotor();
+  }
+
+  public void stopHook() {
+    hook.stopMotor();
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("winch current (A)", winch.getOutputCurrent());
   }
 }
