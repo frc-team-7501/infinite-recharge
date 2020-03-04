@@ -42,10 +42,14 @@ public class DriveTrain extends SubsystemBase {
     differentialDrive = new DifferentialDrive(groupL, groupR);
   }
 
-  public void arcadeDrive(final double x, final double y) {
-    differentialDrive.arcadeDrive(y, x);
+  public void curvatureDrive(final double y, final double z, final boolean isQuickTurn) {
+    differentialDrive.curvatureDrive(y, z, isQuickTurn);
   }
 
+  public void stop() {
+    differentialDrive.stopMotor();
+  }
+  
   public double getGyroYaw() {
     double[] ypr = new double[3];
     pigeonIMU.getYawPitchRoll(ypr);

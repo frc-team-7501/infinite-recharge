@@ -26,8 +26,8 @@ import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
   // Create joysticks
-  private final Joystick        stick       = new Joystick(1);
-  private final XboxController  controller  = new XboxController(2);
+  private final Joystick        stick       = new Joystick(0);
+  private final XboxController  controller  = new XboxController(1);
   // Create subsystems
   private final DriveTrain      driveTrain      = new DriveTrain();
   private final Limelight       limelight       = new Limelight();
@@ -39,14 +39,14 @@ public class RobotContainer {
   private final Climber         climber         = new Climber();
 
   // Create commands
-  private final TeleopDriveCommand          teleopDriveCommand          = new TeleopDriveCommand(driveTrain, () -> stick.getX(), () -> -stick.getY());
+  private final TeleopDriveCommand          teleopDriveCommand          = new TeleopDriveCommand(driveTrain, () -> -stick.getY(), () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
   private final AlignTargetCommand          alignTargetCommand          = new AlignTargetCommand(driveTrain, limelight);
   private final ShooterRampUpCommand        shooterRampUpCommand        = new ShooterRampUpCommand(shooter);
   private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
   private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
   private final ConveyorTopMoveCommand      conveyorTopMoveCommand      = new ConveyorTopMoveCommand(conveyorTop, () -> controller.getTriggerAxis(Hand.kLeft) * 0.5 * (controller.getRawButton(5) ? -1 : 1));
-  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * 0.5 * (controller.getRawButton(6) ? -1 : 1));
-  private final IntakeArmManualCommand      intakeArmManualCommand      = new IntakeArmManualCommand(intakeArm, () -> controller.getY(Hand.kLeft));
+  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * (controller.getRawButton(6) ? -1 : 1));
+  private final IntakeArmManualCommand      intakeArmManualCommand      = new IntakeArmManualCommand(intakeArm, () -> controller.getY(Hand.kLeft) * 0.25);
   private final ClimbWinchUpManualCommand   climbWinchUpManualCommand   = new ClimbWinchUpManualCommand(climber, () -> controller.getY(Hand.kRight));
 
   public RobotContainer() {
@@ -62,12 +62,8 @@ public class RobotContainer {
     // Joystick buttons
     // ===========================================================
 
-    var stickTriggerButton  = new JoystickButton(stick, 1);
-    var stickThumbButton    = new JoystickButton(stick, 2);
+    var stickThumbButton = new JoystickButton(stick, 2);
 
-    stickTriggerButton
-      .whenPressed(()   -> teleopDriveCommand.setSpeedCoef(TeleopDriveCommand.SPEED_BOOST))
-      .whenReleased(()  -> teleopDriveCommand.setSpeedCoef(TeleopDriveCommand.SPEED_BASE));
     stickThumbButton
       .whileActiveOnce(alignTargetCommand);
 
@@ -76,9 +72,6 @@ public class RobotContainer {
     // ===========================================================
 
     var controllerAButton     = new JoystickButton(controller, 1);
-    // var controllerYButton     = new JoystickButton(controller, 4);
-    var controllerBumperL     = new JoystickButton(controller, 5);
-    var controllerBumperR     = new JoystickButton(controller, 6);
     var controllerBackButton  = new JoystickButton(controller, 7);
     var controllerStartButton = new JoystickButton(controller, 8);
     
@@ -88,10 +81,6 @@ public class RobotContainer {
       .whenPressed(controlPanelPositionCommand);
     controllerStartButton
       .whenPressed(controlPanelRotationCommand);
-    // controllerBumperL
-    //   .whenHeld(conveyorTopMoveCommand);
-    // controllerBumperR
-    //   .whenHeld(conveyorBottomMoveCommand);
   }
 
   /**

@@ -1,32 +1,24 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
 public class TeleopDriveCommand extends CommandBase {
-  public static final double SPEED_BASE  = 0.6;
-  public static final double SPEED_BOOST = 1.0;
-  
-  private final DoubleSupplier xInput, yInput;
+  private final DoubleSupplier zInput, yInput, tInput;
+  private final BooleanSupplier qInput;
   private final DriveTrain driveTrain;
-  private double speedCoef = SPEED_BASE;
 
-  public TeleopDriveCommand(DriveTrain driveTrain, DoubleSupplier xInput, DoubleSupplier yInput) {
+  public TeleopDriveCommand(DriveTrain driveTrain, DoubleSupplier yInput, DoubleSupplier zInput, BooleanSupplier qInput, DoubleSupplier tInput) {
     this.driveTrain = driveTrain;
-    this.xInput     = xInput;
     this.yInput     = yInput;
+    this.zInput     = zInput;
+    this.qInput     = qInput;
+    this.tInput     = tInput;
     
     addRequirements(driveTrain);
-  }
-
-  public double getSpeedCoef() {
-    return speedCoef;
-  }
-
-  public void setSpeedCoef(double speedCoef) {
-    this.speedCoef = speedCoef;
   }
 
   @Override
@@ -35,11 +27,17 @@ public class TeleopDriveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(xInput.getAsDouble() * speedCoef, yInput.getAsDouble() * speedCoef);
+    var throttle = tInput.getAsDouble();
+    var ySpeed = yInput.getAsDouble() * throttle;
+    var zSpeed = zInput.getAsDouble() * throttle;
+    var isQuick = qInput.getAsBoolean();
+
+    driveTrain.curvatureDrive(ySpeed, zSpeed, isQuick);
   }
 
   @Override
   public void end(boolean interrupted) {
+    driveTrain.stop();
   }
 
   @Override

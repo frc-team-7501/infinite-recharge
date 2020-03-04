@@ -21,7 +21,7 @@ public class AlignTargetCommand extends PIDCommand {
       () -> 0,
       // Output consumer
       // output -> driveTrain.arcadeDrive(-Math.copySign(Math.min(Math.abs(output), 0.4), output), 0)
-      output -> driveTrain.arcadeDrive(-output, 0)
+      output -> driveTrain.curvatureDrive(0, -output, true)
     );
 
     this.limelight = limelight;
