@@ -7,9 +7,9 @@ public final class Constants {
     }
     public final class I2CMUX {
       public static final int colorSensorControlPanel   = 0;
-      public static final int colorSensorConveyorBottom = 1;
+      public static final int colorSensorConveyorTop    = 1;
       public static final int colorSensorConveyorMiddle = 2;
-      public static final int colorSensorConveyorTop    = 3;
+      public static final int colorSensorConveyorBottom = 3;
     }
 
     public final class CAN {

@@ -45,7 +45,7 @@ public class RobotContainer {
   private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
   private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
   private final ConveyorTopMoveCommand      conveyorTopMoveCommand      = new ConveyorTopMoveCommand(conveyorTop, () -> controller.getTriggerAxis(Hand.kLeft) * 0.5 * (controller.getRawButton(5) ? -1 : 1));
-  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * (controller.getRawButton(6) ? -1 : 1));
+  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * 0.5 * (controller.getRawButton(6) ? -1 : 1));
   private final IntakeArmManualCommand      intakeArmManualCommand      = new IntakeArmManualCommand(intakeArm, () -> controller.getY(Hand.kLeft) * 0.25);
   private final ClimbWinchUpManualCommand   climbWinchUpManualCommand   = new ClimbWinchUpManualCommand(climber, () -> controller.getY(Hand.kRight));
 

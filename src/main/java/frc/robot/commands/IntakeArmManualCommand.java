@@ -21,7 +21,10 @@ public class IntakeArmManualCommand extends CommandBase {
 
   @Override
   public void execute() {
-    intakeArm.move(supplier.getAsDouble());
+    var speed = supplier.getAsDouble();
+    if (Math.abs(speed) < 0.02)
+      speed = 0;
+    intakeArm.move(speed);
   }
 
   @Override

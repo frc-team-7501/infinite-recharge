@@ -17,11 +17,15 @@ public class RevColorSensorV3Mux {
 
   public Color getColor() {
     TCA9548A.getInstance().selectChannel(channel);
-    return sensor.getColor();
+    var result = sensor.getColor();
+    TCA9548A.getInstance().release();
+    return result;
   }
 
   public int getProximity() {
     TCA9548A.getInstance().selectChannel(channel);
-    return sensor.getProximity();
+    var result = sensor.getProximity();
+    TCA9548A.getInstance().release();
+    return result;
   }
 }
