@@ -1,20 +1,13 @@
-package frc.robot.commands;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterRampUpCommand extends CommandBase {
+public class ShooterFireInfinite extends CommandBase {
   private final Shooter shooter;
 
-  private double velocity = 1.0; // TODO: get this from a DoubleProvider that gets data from the Limelight
-  
-  public ShooterRampUpCommand(Shooter shooter) {
+  public ShooterFireInfinite(Shooter shooter) {
     this.shooter = shooter;
-    addRequirements(shooter);
-  }
-
-  public void setVelocity(double velocity) {
-    this.velocity = velocity;
   }
 
   @Override
@@ -23,7 +16,7 @@ public class ShooterRampUpCommand extends CommandBase {
 
   @Override
   public void execute() {
-    shooter.fire(velocity);
+    shooter.fire(1.0);
   }
 
   @Override

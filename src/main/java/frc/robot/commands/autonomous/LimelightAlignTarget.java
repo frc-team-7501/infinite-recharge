@@ -1,17 +1,16 @@
-package frc.robot.commands;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Limelight.LEDState;
 
-public class AlignTargetCommand extends PIDCommand {
+public class LimelightAlignTarget extends PIDCommand {
   // private final DriveTrain driveTrain;
   private final Limelight limelight;
   
-  public AlignTargetCommand(DriveTrain driveTrain, Limelight limelight) {
+  public LimelightAlignTarget(DriveTrain driveTrain, Limelight limelight) {
     super(
       // PID controller
       new PIDController(0.075, 0.001, 0.00),
@@ -20,8 +19,8 @@ public class AlignTargetCommand extends PIDCommand {
       // The PID setpoint (0 so we can center the bot)
       () -> 0,
       // Output consumer
-      // output -> driveTrain.arcadeDrive(-Math.copySign(Math.min(Math.abs(output), 0.4), output), 0)
-      output -> driveTrain.curvatureDrive(0, -output, true)
+      // output -> driveTrain.curvatureDrive(0, -output, true)
+      output -> driveTrain.curvatureDrive(0, -output / 2, true)
     );
 
     this.limelight = limelight;
@@ -35,19 +34,6 @@ public class AlignTargetCommand extends PIDCommand {
   public void initialize() {
     super.initialize();
     limelight.setLEDState(LEDState.kSolid);
-    SmartDashboard.putNumber("LL P", getController().getP());
-    SmartDashboard.putNumber("LL I", getController().getI());
-    SmartDashboard.putNumber("LL D", getController().getD());
-  }
-
-  @Override
-  public void execute() {
-    double p, i, d;
-    p = SmartDashboard.getNumber("LL P", getController().getP());
-    i = SmartDashboard.getNumber("LL I", getController().getI());
-    d = SmartDashboard.getNumber("LL D", getController().getD());
-    getController().setPID(p, i, d);
-    super.execute();
   }
 
   @Override
@@ -57,7 +43,6 @@ public class AlignTargetCommand extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    // return getController().atSetpoint();
-    return false;
+    return getController().atSetpoint();
   }
 }

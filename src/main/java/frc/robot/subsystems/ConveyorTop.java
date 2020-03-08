@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.ColorMatch;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -32,22 +31,15 @@ public class ConveyorTop extends SubsystemBase {
 
   public boolean powerCellPresence() {
     var rawColor = sensorTop.getColor();
-
-    SmartDashboard.putNumberArray("raw rgb", new double[]{rawColor.red, rawColor.green, rawColor.blue});
     
-    var match = colorMatch.matchClosestColor(sensorTop.getColor());
+    var match = colorMatch.matchClosestColor(rawColor);
     var prox = sensorTop.getProximity();
     
-
-
-    SmartDashboard.putNumber("prox", prox);
-    SmartDashboard.putNumber("conf", match.confidence);
-
     return match.color == POWER_CELL_COLOR && match.confidence >= 0.95 && prox >= 120;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("pc pres", powerCellPresence());
+    // SmartDashboard.putBoolean("pc pres", powerCellPresence());
   }
 }

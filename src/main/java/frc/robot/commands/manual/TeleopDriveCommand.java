@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.manual;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -27,10 +27,10 @@ public class TeleopDriveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    var throttle = tInput.getAsDouble();
-    var ySpeed = yInput.getAsDouble() * throttle;
-    var zSpeed = zInput.getAsDouble() * throttle;
-    var isQuick = qInput.getAsBoolean();
+    var throttle  = tInput.getAsDouble();
+    var ySpeed    = yInput.getAsDouble() * throttle;
+    var zSpeed    = zInput.getAsDouble() * throttle;
+    var isQuick   = qInput.getAsBoolean();
 
     driveTrain.curvatureDrive(ySpeed, zSpeed, isQuick);
   }

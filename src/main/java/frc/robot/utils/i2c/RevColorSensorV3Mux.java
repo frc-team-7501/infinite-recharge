@@ -4,28 +4,29 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
+import frc.robot.RobotContainer;
 
 public class RevColorSensorV3Mux {
-  protected ColorSensorV3 sensor = new ColorSensorV3(Port.kOnboard);
+  protected ColorSensorV3 sensor;
   protected final int channel;
 
   public RevColorSensorV3Mux(int channel) {
     if (channel > 7 || channel < 0)
       throw new Error("Invalid channel selection");
     this.channel = channel;
+    RobotContainer.multiplexer.selectChannel(channel);
+    this.sensor = new ColorSensorV3(Port.kOnboard);
   }
 
   public Color getColor() {
-    TCA9548A.getInstance().selectChannel(channel);
+    RobotContainer.multiplexer.selectChannel(channel);
     var result = sensor.getColor();
-    TCA9548A.getInstance().release();
     return result;
   }
 
   public int getProximity() {
-    TCA9548A.getInstance().selectChannel(channel);
+    RobotContainer.multiplexer.selectChannel(channel);
     var result = sensor.getProximity();
-    TCA9548A.getInstance().release();
     return result;
   }
 }

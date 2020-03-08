@@ -1,6 +1,10 @@
 package frc.robot;
 
-public final class Constants {  
+public final class Constants {
+  public final class Setpoints {
+    public static final double intakeArmUp = 0; // TODO
+    public static final double intakeArmDown = -0.363; // TODO
+  }
   public final class Ports {
     public final class I2C {
       public static final int multiplexer = 0x70;
