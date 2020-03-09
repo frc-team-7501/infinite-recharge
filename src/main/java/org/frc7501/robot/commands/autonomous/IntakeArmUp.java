@@ -6,11 +6,13 @@ import org.frc7501.utils.ClosedLoopBoundaryController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeArmUp extends CommandBase {
-  private IntakeArm intakeArm;
-  private ClosedLoopBoundaryController boundaryController = new ClosedLoopBoundaryController(-0.03, 1, 0.2, intakeArm::getPosition, intakeArm::move);
+  private final IntakeArm intakeArm;
+  private final ClosedLoopBoundaryController boundaryController;
   
   public IntakeArmUp(IntakeArm intakeArm) {
     this.intakeArm = intakeArm;
+    boundaryController = new ClosedLoopBoundaryController(-0.03, 1, 0.2, intakeArm::getPosition, intakeArm::move);
+    addRequirements(intakeArm);
   }
 
   @Override

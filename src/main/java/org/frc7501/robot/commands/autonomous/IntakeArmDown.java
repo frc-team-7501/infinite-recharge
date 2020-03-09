@@ -5,12 +5,14 @@ import org.frc7501.utils.ClosedLoopBoundaryController;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeArmDownInfinite extends CommandBase {
-  private IntakeArm intakeArm;
-  private ClosedLoopBoundaryController boundaryController = new ClosedLoopBoundaryController(-1, -0.36, 0.2, intakeArm::getPosition, intakeArm::move);
+public class IntakeArmDown extends CommandBase {
+  private final IntakeArm intakeArm;
+  private final ClosedLoopBoundaryController boundaryController;
   
-  public IntakeArmDownInfinite(IntakeArm intakeArm) {
+  public IntakeArmDown(IntakeArm intakeArm) {
     this.intakeArm = intakeArm;
+    boundaryController = new ClosedLoopBoundaryController(-1, -0.36, 0.2, intakeArm::getPosition, intakeArm::move);
+    addRequirements(intakeArm);
   }
 
   @Override
@@ -30,6 +32,6 @@ public class IntakeArmDownInfinite extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return boundaryController.inRange();
   }
 }
