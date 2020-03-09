@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot.subsystems.ControlPanel;
 import org.frc7501.robot.subsystems.ControlPanel.ControlPanelColor;
 
-public class ControlPanelPositionCommand extends CommandBase {
+public class ControlPanelPosition extends CommandBase {
   private final ControlPanel controlPanel;
   private ControlPanelColor targetColor;
 
-  public ControlPanelPositionCommand(ControlPanel controlPanel) {
+  public ControlPanelPosition(ControlPanel controlPanel) {
     this.controlPanel = controlPanel;
     addRequirements(controlPanel);
   }

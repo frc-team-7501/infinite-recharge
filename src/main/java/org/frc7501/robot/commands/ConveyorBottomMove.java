@@ -5,11 +5,11 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot.subsystems.ConveyorBottom;
 
-public class ConveyorBottomMoveCommand extends CommandBase {
+public class ConveyorBottomMove extends CommandBase {
   private final ConveyorBottom conveyorBottom;
   private final DoubleSupplier supplier;
   
-  public ConveyorBottomMoveCommand(ConveyorBottom conveyorBottom, DoubleSupplier supplier) {
+  public ConveyorBottomMove(ConveyorBottom conveyorBottom, DoubleSupplier supplier) {
     this.conveyorBottom = conveyorBottom;
     this.supplier = supplier;
     addRequirements(conveyorBottom);

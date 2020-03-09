@@ -18,15 +18,20 @@ public class ClosedLoopBoundaryController {
     this.outputConsumer = outputConsumer;
   }
 
-  protected void execute() {
+  public boolean inRange() {
     var position = inputSupplier.getAsDouble();
-    double error;
+    return position >= lowerBound && position <= upperBound;
+  }
+
+  public void execute() {
+    var position = inputSupplier.getAsDouble();
+    double output;
     if (position > upperBound)
-      error = position - upperBound;
+      output = -correction;
     else if (position < lowerBound)
-      error = position - lowerBound;
+      output = correction;
     else
-      error = 0;
-    // TODO
+      output = 0;
+    outputConsumer.accept(output);
   }
 }

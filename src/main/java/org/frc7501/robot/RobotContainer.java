@@ -13,17 +13,17 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import org.frc7501.robot.commands.ConveyorBottomMoveCommand;
-import org.frc7501.robot.commands.ConveyorTopMoveCommand;
+import org.frc7501.robot.commands.ConveyorBottomMove;
+import org.frc7501.robot.commands.ConveyorTopMove;
 import org.frc7501.robot.commands.ShooterFireManual;
-import org.frc7501.robot.commands.autonomous.ControlPanelPositionCommand;
-import org.frc7501.robot.commands.autonomous.ControlPanelRotationCommand;
-// import org.frc7501.robot.commands.autonomous.IntakeArmDown;
-// import org.frc7501.robot.commands.autonomous.IntakeArmUp;
+import org.frc7501.robot.commands.autonomous.ControlPanelPosition;
+import org.frc7501.robot.commands.autonomous.ControlPanelRotation;
+import org.frc7501.robot.commands.autonomous.IntakeArmDownInfinite;
+import org.frc7501.robot.commands.autonomous.IntakeArmUp;
 import org.frc7501.robot.commands.autonomous.LimelightAlignTarget;
 import org.frc7501.robot.commands.autonomous.ShooterFireInfinite;
-import org.frc7501.robot.commands.manual.ClimberControlCommand;
-import org.frc7501.robot.commands.manual.TeleopDriveCommand;
+import org.frc7501.robot.commands.manual.ClimberControl;
+import org.frc7501.robot.commands.manual.TeleopDrive;
 import org.frc7501.robot.subsystems.Climber;
 import org.frc7501.robot.subsystems.ControlPanel;
 import org.frc7501.robot.subsystems.ConveyorBottom;
@@ -51,31 +51,32 @@ public class RobotContainer {
   private final Climber         climber         = new Climber();
 
   // Create commands
-  private final TeleopDriveCommand          teleopDriveCommand          = new TeleopDriveCommand(driveTrain, () -> -stick.getY(), () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
-  private final LimelightAlignTarget        limelightAlignTargetCommand = new LimelightAlignTarget(driveTrain, limelight);
-  private final ShooterFireManual           shooterFireManualCommand    = new ShooterFireManual(shooter);
-  private final ControlPanelPositionCommand controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
-  private final ControlPanelRotationCommand controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
-  private final ConveyorTopMoveCommand      conveyorTopMoveCommand      = new ConveyorTopMoveCommand(conveyorTop, () -> controller.getTriggerAxis(Hand.kLeft) * 0.5 * (controller.getRawButton(5) ? -1 : 1));
-  private final ConveyorBottomMoveCommand   conveyorBottomMoveCommand   = new ConveyorBottomMoveCommand(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * 0.5 * (controller.getRawButton(6) ? -1 : 1));
-  private final ClimberControlCommand       climberControlCommand       = new ClimberControlCommand(climber, () -> controller.getY(Hand.kLeft), () -> controller.getY(Hand.kRight) * 0.25);
-  // private final IntakeArmUp                 intakeArmUpCommand          = new IntakeArmUp(intakeArm);
-  // private final IntakeArmDown               intakeArmDownCommand        = new IntakeArmDown(intakeArm);
+  private final TeleopDrive           teleopDriveCommand          = new TeleopDrive(driveTrain, () -> -stick.getY(), () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
+  private final LimelightAlignTarget  limelightAlignTargetCommand = new LimelightAlignTarget(driveTrain, limelight);
+  private final ShooterFireManual     shooterFireManualCommand    = new ShooterFireManual(shooter);
+  private final ControlPanelPosition  controlPanelPositionCommand = new ControlPanelPosition(controlPanel);
+  private final ControlPanelRotation  controlPanelRotationCommand = new ControlPanelRotation(controlPanel);
+  private final ConveyorTopMove       conveyorTopMoveCommand      = new ConveyorTopMove(conveyorTop, () -> controller.getTriggerAxis(Hand.kLeft) * 0.5 * (controller.getRawButton(5) ? -1 : 1));
+  private final ConveyorBottomMove    conveyorBottomMoveCommand   = new ConveyorBottomMove(conveyorBottom, () -> controller.getTriggerAxis(Hand.kRight) * 0.5 * (controller.getRawButton(6) ? -1 : 1));
+  private final ClimberControl        climberControlCommand       = new ClimberControl(climber, () -> controller.getY(Hand.kLeft), () -> controller.getY(Hand.kRight) * 0.25);
+  private final IntakeArmUp           intakeArmUpCommand          = new IntakeArmUp(intakeArm);
+  private final IntakeArmDownInfinite intakeArmDownCommand        = new IntakeArmDownInfinite(intakeArm);
 
   // Autonomous
-  // private final SequentialCommandGroup autonRight = new SequentialCommandGroup(
-  //   new IntakeArmDown(intakeArm),
-  //   new ParallelRaceGroup(
-  //     new ShooterFireInfinite(shooter),
-  //     new SequentialCommandGroup(
-  //       new LimelightAlignTarget(driveTrain, limelight),
-  //       new ParallelDeadlineGroup(new WaitCommand(1.0),
-  //         new ConveyorBottomMoveCommand(conveyorBottom, () -> 1),
-  //         new ConveyorTopMoveCommand(conveyorTop, () -> 1)
-  //       )
-  //     )
-  //   )
-  // );
+  private final SequentialCommandGroup autonRight = new SequentialCommandGroup(
+    new ParallelRaceGroup(
+      new ShooterFireInfinite(shooter),                     // Start shooter motor
+      new IntakeArmDownInfinite(intakeArm),                 // Lower the intake
+      new SequentialCommandGroup(
+        new LimelightAlignTarget(driveTrain, limelight),    // Align the limelight
+        new ParallelDeadlineGroup(new WaitCommand(0.5),     // Wait 0.5s for shooter to get up to speed
+          new ConveyorBottomMove(conveyorBottom, () -> 1),  // Advance the bottom conveyor
+          new ConveyorTopMove(conveyorTop, () -> 1)         // Advance the top conveyor
+        )
+      )
+    ),
+    new IntakeArmUp(intakeArm)                              // Bring the intake arm up
+  );
 
   public RobotContainer() {
     configureButtonBindings();
@@ -108,10 +109,10 @@ public class RobotContainer {
     
     controllerAButton
       .whenHeld(shooterFireManualCommand);
-    // controllerXButton
-    //   .whenPressed(intakeArmDownCommand);
-    // controllerYButton
-    //   .whenPressed(intakeArmUpCommand);
+    controllerXButton
+      .whenPressed(intakeArmDownCommand);
+    controllerYButton
+      .whenPressed(intakeArmUpCommand);
 
     controllerBackButton
       .whenPressed(controlPanelPositionCommand);
@@ -139,7 +140,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // TODO
-    // return autonRight;
-    return null;
+    return autonRight;
+    // return null;
   }
 }

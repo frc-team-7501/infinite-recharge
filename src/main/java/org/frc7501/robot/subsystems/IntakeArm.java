@@ -13,14 +13,11 @@ public class IntakeArm extends SubsystemBase {
   private final CANSparkMax motor = new CANSparkMax(Constants.Ports.CAN.sparkmax_IntakeArm, MotorType.kBrushless);
   
   public IntakeArm() {
-    // super(new PIDController(2, 0, 0.15));
     // Configure Spark MAX
     motor.restoreFactoryDefaults();
     motor.setIdleMode(IdleMode.kCoast);
     motor.getEncoder().setPosition(0.0);
     motor.getEncoder().setPositionConversionFactor(1.0 / 87.5);
-    // Configure PID controller
-    // getController().setTolerance(0.1);
   }
 
   public double getPosition() {
@@ -29,6 +26,14 @@ public class IntakeArm extends SubsystemBase {
       return 0;
     else
       return pos;
+  }
+
+  public void move(double speed) {
+    motor.set(speed);
+  }
+
+  public void stop() {
+    motor.stopMotor();
   }
 
   public void setBrakeMode(boolean brakeEnabled) {
@@ -40,21 +45,6 @@ public class IntakeArm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    super.periodic();
     SmartDashboard.putNumber("Arm position", getPosition());
-    // SmartDashboard.putNumber("Arm setpoint", getController().getSetpoint());
   }
-
-  // @Override
-  // protected void useOutput(double output, double setpoint) {
-  //   SmartDashboard.putNumber("Arm PID output", output);
-  //   if (Math.abs(output) < 0.005)
-  //     output = 0;
-  //   motor.set(output);
-  // }
-
-  // @Override
-  // protected double getMeasurement() {
-  //   return getPosition();
-  // }
 }

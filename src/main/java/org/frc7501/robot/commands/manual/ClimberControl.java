@@ -5,12 +5,12 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot.subsystems.Climber;
 
-public class ClimberControlCommand extends CommandBase {
+public class ClimberControl extends CommandBase {
   private final Climber climber;
   private final DoubleSupplier winchSupplier;
   private final DoubleSupplier hookSupplier;
   
-  public ClimberControlCommand(Climber climber, DoubleSupplier winchSupplier, DoubleSupplier hookSupplier) {
+  public ClimberControl(Climber climber, DoubleSupplier winchSupplier, DoubleSupplier hookSupplier) {
     this.climber = climber;
     this.winchSupplier = winchSupplier;
     this.hookSupplier = hookSupplier;
