@@ -1,4 +1,4 @@
-package org.frc7501.robot.utils.geometry;
+package org.frc7501.utils.geometry;
 
 public final class Vector2D {
   private double angle, magnitude;

@@ -2,7 +2,6 @@ package org.frc7501.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -10,9 +9,10 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.frc7501.robot.Constants;
 import org.frc7501.robot.RobotContainer;
+import org.frc7501.utils.ThreadedColorSensor;
 
 public class ControlPanel extends SubsystemBase {
-  private final ColorSensorV3 colorSensor = new ColorSensorV3(RobotContainer.mux, Constants.Ports.I2CMUX.colorSensorControlPanel);
+  private final ThreadedColorSensor colorSensor = new ThreadedColorSensor(RobotContainer.mux, Constants.Ports.I2CMUX.colorSensorControlPanel);
   private final CANSparkMax spinnerMotor  = new CANSparkMax(Constants.Ports.CAN.sparkmax_ControlPanel, MotorType.kBrushless);
   
   public final Color colorBlue          = ColorMatch.makeColor(0.125, 0.429, 0.446);

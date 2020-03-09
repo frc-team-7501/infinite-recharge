@@ -1,4 +1,4 @@
-package org.frc7501.robot.utils;
+package org.frc7501.utils;
 
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
