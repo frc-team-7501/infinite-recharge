@@ -26,16 +26,22 @@ public class ControlPanelRotationCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (indexColor == null && controlPanel.getConfidence() >= 0.95)
-      indexColor = controlPanel.getCurrentColor();
+    // Get current color
     var currentColor = controlPanel.getCurrentColor();
+
     if (controlPanel.getConfidence() >= 0.95) {
       if (indexColor == null)
+        // Set index color
         indexColor = currentColor;
       else if (currentColor != lastColor && currentColor == indexColor)
+        // Color has changed since last loop, and the color is now the index color.
+        // Increment the counter.
         rotationCount++;
+      // Set the last color to detect color changes
       lastColor = currentColor;
     }
+
+    // Spin the control panel motor
     controlPanel.spinMotor(1);
   }
 
@@ -46,6 +52,10 @@ public class ControlPanelRotationCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
+    // Because the index color will appear twice per rotation, rotation count is
+    // double the number of actual rotatons needed.
+    // In this case, 7 is used so that 3 full rotations occur, with an extra half
+    // revolution allowing for error margin.
     return rotationCount > 7;
   }
 }

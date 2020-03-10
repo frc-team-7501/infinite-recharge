@@ -75,34 +75,35 @@ public class RobotContainer {
     // ===========================================================
 
     // NOTE: stick button 1 (triiger) is used inline in the drive command (see above)
-    final var stickThumbButton = new JoystickButton(stick, 2);
+    
+    final var stickButton_Thumb = new JoystickButton(stick, 2);
 
-    stickThumbButton
-    .whileActiveOnce(limelightAlignTargetCommand);
+    stickButton_Thumb
+      .whileActiveOnce(limelightAlignTargetCommand);
 
     // ===========================================================
     // Controller buttons
     // ===========================================================
 
-    final var controllerAButton     = new JoystickButton(controller, 1);
-    final var controllerBButton     = new JoystickButton(controller, 2);
-    final var controllerXButton     = new JoystickButton(controller, 3);
-    final var controllerYButton     = new JoystickButton(controller, 4);
-    final var controllerLBButton    = new JoystickButton(controller, 5);
-    final var controllerRBButton    = new JoystickButton(controller, 6);
-    final var controllerBackButton  = new JoystickButton(controller, 7);
-    final var controllerStartButton = new JoystickButton(controller, 8);
+    final var controllerButton_A     = new JoystickButton(controller, 1);
+    final var controllerButton_B     = new JoystickButton(controller, 2);
+    final var controllerButton_X     = new JoystickButton(controller, 3);
+    final var controllerButton_Y     = new JoystickButton(controller, 4);
+    final var controllerButton_LB    = new JoystickButton(controller, 5);
+    final var controllerButton_RB    = new JoystickButton(controller, 6);
+    final var controllerButton_Back  = new JoystickButton(controller, 7);
+    final var controllerButton_Start = new JoystickButton(controller, 8);
     
 
-    controllerAButton
+    controllerButton_A
       .whileActiveOnce(new ShooterFireCommand(shooter, conveyor));
-    controllerBButton
+    controllerButton_B
       .whileActiveOnce(intakeArmDownCommand.andThen(conveyorIntakeCommand))
       .whenInactive(intakeArmUpCommand);
 
-    controllerBackButton
+    controllerButton_Back
       .whenPressed(controlPanelPositionCommand);
-    controllerStartButton
+    controllerButton_Start
       .whenPressed(controlPanelRotationCommand);
   }
 
@@ -120,6 +121,7 @@ public class RobotContainer {
    * Returns the selected autonomous command.
    */
   public Command getAutonomousCommand() {
+    // TODO: SendableChooser?
     return autonRight;
   }
 }
