@@ -3,32 +3,26 @@ package org.frc7501.robot2020.commands.autonomous;
 import org.frc7501.robot2020.subsystems.DriveTrain;
 import org.frc7501.robot2020.subsystems.Limelight;
 import org.frc7501.robot2020.subsystems.Limelight.LEDState;
+import org.frc7501.utils.controls.SimpleController;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class LimelightAlignTargetCommand extends PIDCommand {
-  // private final DriveTrain driveTrain;
+public class LimelightAlignTargetCommand extends CommandBase {
   private final Limelight limelight;
-  
+  private final SimpleController controller;
+
   public LimelightAlignTargetCommand(DriveTrain driveTrain, Limelight limelight) {
-    super(
-      // PID controller
-      new PIDController(0.075, 0.02, 0.00),
-      // Measurement
+    this.limelight = limelight;
+    controller = new SimpleController(
+      0.075, 0.07,
       () -> limelight.validTarget() ? limelight.getRawXOffset() : 7.0,
-      // The PID setpoint (0 so we can center the bot)
-      () -> 0,
-      // Output consumer
-      // output -> driveTrain.curvatureDrive(0, -output, true)
-      output -> driveTrain.curvatureDrive(0, -output / 2, true)
+      output -> driveTrain.curvatureDrive(0, -output, true)
     );
 
-    this.limelight = limelight;
     addRequirements(driveTrain, limelight);
 
-    // Tune the PID
-    getController().setTolerance(0.05);
+    // Tune the controller
+    controller.setTolerance(0.05);
   }
 
   @Override
@@ -44,6 +38,6 @@ public class LimelightAlignTargetCommand extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return controller.atSetpoint();
   }
 }
