@@ -1,10 +1,11 @@
 package org.frc7501.robot2020.subsystems;
 
+import org.frc7501.utils.geometry.Point2D;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.frc7501.utils.geometry.Point2D;
 
 public class Limelight extends SubsystemBase {
 

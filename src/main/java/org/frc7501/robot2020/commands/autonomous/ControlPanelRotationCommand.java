@@ -1,8 +1,9 @@
 package org.frc7501.robot2020.commands.autonomous;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot2020.subsystems.ControlPanel;
 import org.frc7501.robot2020.subsystems.ControlPanel.ControlPanelColor;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ControlPanelRotationCommand extends CommandBase {
   private final ControlPanel controlPanel;

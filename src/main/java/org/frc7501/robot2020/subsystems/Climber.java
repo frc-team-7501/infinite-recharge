@@ -3,8 +3,9 @@ package org.frc7501.robot2020.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.frc7501.robot2020.Constants;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
   private final CANSparkMax winch = new CANSparkMax(Constants.Ports.CAN.sparkmax_Winch, MotorType.kBrushless);

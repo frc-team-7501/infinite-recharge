@@ -2,8 +2,9 @@ package org.frc7501.robot2020.commands.manual;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot2020.subsystems.Climber;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimberControlCommand extends CommandBase {
   private final Climber climber;

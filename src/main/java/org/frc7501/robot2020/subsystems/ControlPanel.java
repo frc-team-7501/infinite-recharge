@@ -1,16 +1,17 @@
 package org.frc7501.robot2020.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorSensorV3;
+
+import org.frc7501.robot2020.Constants;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.frc7501.robot2020.Constants;
 
 public class ControlPanel extends SubsystemBase {
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);

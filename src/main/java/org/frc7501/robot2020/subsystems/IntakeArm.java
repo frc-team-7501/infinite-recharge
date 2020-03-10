@@ -4,10 +4,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.frc7501.robot2020.Constants;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import org.frc7501.robot2020.Constants;
 
 public class IntakeArm extends SubsystemBase {
   private final CANSparkMax motor = new CANSparkMax(Constants.Ports.CAN.sparkmax_IntakeArm, MotorType.kBrushless);
