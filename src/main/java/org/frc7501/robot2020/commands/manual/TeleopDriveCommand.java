@@ -6,12 +6,12 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot2020.subsystems.DriveTrain;
 
-public class TeleopDrive extends CommandBase {
+public class TeleopDriveCommand extends CommandBase {
   private final DoubleSupplier zInput, yInput, tInput;
   private final BooleanSupplier qInput;
   private final DriveTrain driveTrain;
 
-  public TeleopDrive(DriveTrain driveTrain, DoubleSupplier yInput, DoubleSupplier zInput, BooleanSupplier qInput, DoubleSupplier tInput) {
+  public TeleopDriveCommand(DriveTrain driveTrain, DoubleSupplier yInput, DoubleSupplier zInput, BooleanSupplier qInput, DoubleSupplier tInput) {
     this.driveTrain = driveTrain;
     this.yInput     = yInput;
     this.zInput     = zInput;

@@ -5,13 +5,13 @@ import org.frc7501.utils.BoundaryController;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeArmUp extends CommandBase {
+public class IntakeArmDownCommand extends CommandBase {
   private final IntakeArm intakeArm;
   private final BoundaryController boundaryController;
   
-  public IntakeArmUp(IntakeArm intakeArm) {
+  public IntakeArmDownCommand(IntakeArm intakeArm) {
     this.intakeArm = intakeArm;
-    boundaryController = new BoundaryController(-0.03, 1, 0.3, intakeArm::getPosition, intakeArm::move); // TODO: change correction to be more responsive
+    boundaryController = new BoundaryController(-1, -0.36, 0.3, intakeArm::getPosition, intakeArm::move); // TODO: change correction to be more responsive
     addRequirements(intakeArm);
   }
 
@@ -28,8 +28,6 @@ public class IntakeArmUp extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     intakeArm.stop();
-    if (!interrupted)
-      intakeArm.setBrakeMode(true);
   }
 
   @Override

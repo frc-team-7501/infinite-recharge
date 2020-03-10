@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc7501.robot2020.subsystems.ControlPanel;
 import org.frc7501.robot2020.subsystems.ControlPanel.ControlPanelColor;
 
-public class ControlPanelRotation extends CommandBase {
+public class ControlPanelRotationCommand extends CommandBase {
   private final ControlPanel controlPanel;
 
   private ControlPanelColor indexColor;
   private ControlPanelColor lastColor;
   private int rotationCount;
 
-  public ControlPanelRotation(ControlPanel controlPanel) {
+  public ControlPanelRotationCommand(ControlPanel controlPanel) {
     this.controlPanel = controlPanel;
     addRequirements(controlPanel);
   }

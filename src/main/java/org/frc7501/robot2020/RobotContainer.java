@@ -1,14 +1,14 @@
 package org.frc7501.robot2020;
 
-import org.frc7501.robot2020.commands.autonomous.ControlPanelPosition;
-import org.frc7501.robot2020.commands.autonomous.ControlPanelRotation;
-import org.frc7501.robot2020.commands.autonomous.ConveyorIntake;
-import org.frc7501.robot2020.commands.autonomous.IntakeArmDown;
-import org.frc7501.robot2020.commands.autonomous.IntakeArmUp;
-import org.frc7501.robot2020.commands.autonomous.LimelightAlignTarget;
-import org.frc7501.robot2020.commands.autonomous.ShooterFire;
-import org.frc7501.robot2020.commands.manual.ClimberControl;
-import org.frc7501.robot2020.commands.manual.TeleopDrive;
+import org.frc7501.robot2020.commands.autonomous.ControlPanelPositionCommand;
+import org.frc7501.robot2020.commands.autonomous.ControlPanelRotationCommand;
+import org.frc7501.robot2020.commands.autonomous.ConveyorIntakeCommand;
+import org.frc7501.robot2020.commands.autonomous.IntakeArmDownCommand;
+import org.frc7501.robot2020.commands.autonomous.IntakeArmUpCommand;
+import org.frc7501.robot2020.commands.autonomous.LimelightAlignTargetCommand;
+import org.frc7501.robot2020.commands.autonomous.ShooterFireCommand;
+import org.frc7501.robot2020.commands.manual.ClimberControlCommand;
+import org.frc7501.robot2020.commands.manual.TeleopDriveCommand;
 import org.frc7501.robot2020.subsystems.Climber;
 import org.frc7501.robot2020.subsystems.ControlPanel;
 import org.frc7501.robot2020.subsystems.Conveyor;
@@ -44,21 +44,21 @@ public class RobotContainer {
   private final Conveyor        conveyor        = new Conveyor();
 
   // Create commands
-  private final ClimberControl        climberControlCommand       = new ClimberControl(climber, () -> controller.getY(Hand.kLeft), () -> controller.getY(Hand.kRight) * 0.25);
-  private final ControlPanelPosition  controlPanelPositionCommand = new ControlPanelPosition(controlPanel);
-  private final ControlPanelRotation  controlPanelRotationCommand = new ControlPanelRotation(controlPanel);
-  private final ConveyorIntake        conveyorIntakeCommand       = new ConveyorIntake(conveyor);
-  private final IntakeArmDown         intakeArmDownCommand        = new IntakeArmDown(intakeArm);
-  private final IntakeArmUp           intakeArmUpCommand          = new IntakeArmUp(intakeArm);
-  private final LimelightAlignTarget  limelightAlignTargetCommand = new LimelightAlignTarget(driveTrain, limelight);
-  private final TeleopDrive           teleopDriveCommand          = new TeleopDrive(driveTrain, () -> -stick.getY(), () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
+  private final ClimberControlCommand        climberControlCommand       = new ClimberControlCommand(climber, () -> controller.getY(Hand.kLeft), () -> controller.getY(Hand.kRight) * 0.25);
+  private final ControlPanelPositionCommand  controlPanelPositionCommand = new ControlPanelPositionCommand(controlPanel);
+  private final ControlPanelRotationCommand  controlPanelRotationCommand = new ControlPanelRotationCommand(controlPanel);
+  private final ConveyorIntakeCommand        conveyorIntakeCommand       = new ConveyorIntakeCommand(conveyor);
+  private final IntakeArmDownCommand         intakeArmDownCommand        = new IntakeArmDownCommand(intakeArm);
+  private final IntakeArmUpCommand           intakeArmUpCommand          = new IntakeArmUpCommand(intakeArm);
+  private final LimelightAlignTargetCommand  limelightAlignTargetCommand = new LimelightAlignTargetCommand(driveTrain, limelight);
+  private final TeleopDriveCommand           teleopDriveCommand          = new TeleopDriveCommand(driveTrain, () -> -stick.getY(), () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
 
   // Autonomous
   private final SequentialCommandGroup autonRight = new SequentialCommandGroup(
-    new LimelightAlignTarget(driveTrain, limelight),
-    new ShooterFire(shooter, conveyor),
-    new ScheduleCommand(new IntakeArmDown(intakeArm)),
-    new ParallelDeadlineGroup(new WaitCommand(0.1), new TeleopDrive(driveTrain, () -> 0.25, () -> 0, () -> false, () -> 1))
+    new LimelightAlignTargetCommand(driveTrain, limelight),
+    new ShooterFireCommand(shooter, conveyor),
+    new ScheduleCommand(new IntakeArmDownCommand(intakeArm)),
+    new ParallelDeadlineGroup(new WaitCommand(0.1), new TeleopDriveCommand(driveTrain, () -> 0.25, () -> 0, () -> false, () -> 1))
   );
 
   public RobotContainer() {
@@ -95,7 +95,7 @@ public class RobotContainer {
     
 
     controllerAButton
-      .whileActiveOnce(new ShooterFire(shooter, conveyor));
+      .whileActiveOnce(new ShooterFireCommand(shooter, conveyor));
     controllerBButton
       .whileActiveOnce(intakeArmDownCommand.andThen(conveyorIntakeCommand))
       .whenInactive(intakeArmUpCommand);

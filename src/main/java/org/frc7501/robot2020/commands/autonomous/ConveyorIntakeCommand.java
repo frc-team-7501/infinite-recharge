@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * Manages the conveyor and makes sure balls don't bunch up. Ends when the top conveyor is full.
  */
-public class ConveyorIntake extends CommandBase {
+public class ConveyorIntakeCommand extends CommandBase {
   private final Conveyor conveyor;
   
-  public ConveyorIntake(Conveyor conveyor) {
+  public ConveyorIntakeCommand(Conveyor conveyor) {
     this.conveyor = conveyor;
     addRequirements(conveyor);
   }

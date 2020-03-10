@@ -6,11 +6,11 @@ import org.frc7501.robot2020.subsystems.DriveTrain;
 import org.frc7501.robot2020.subsystems.Limelight;
 import org.frc7501.robot2020.subsystems.Limelight.LEDState;
 
-public class LimelightAlignTarget extends PIDCommand {
+public class LimelightAlignTargetCommand extends PIDCommand {
   // private final DriveTrain driveTrain;
   private final Limelight limelight;
   
-  public LimelightAlignTarget(DriveTrain driveTrain, Limelight limelight) {
+  public LimelightAlignTargetCommand(DriveTrain driveTrain, Limelight limelight) {
     super(
       // PID controller
       new PIDController(0.075, 0.02, 0.00),
