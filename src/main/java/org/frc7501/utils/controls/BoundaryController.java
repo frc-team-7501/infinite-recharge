@@ -1,4 +1,4 @@
-package org.frc7501.utils;
+package org.frc7501.utils.controls;
 
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
