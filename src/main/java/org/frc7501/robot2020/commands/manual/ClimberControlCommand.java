@@ -24,8 +24,16 @@ public class ClimberControlCommand extends CommandBase {
 
   @Override
   public void execute() {
-    climber.moveWinch(winchSupplier.getAsDouble());
-    climber.moveHook(hookSupplier.getAsDouble());
+    var winchPower = winchSupplier.getAsDouble();
+    var hookPower = hookSupplier.getAsDouble();
+
+    if (Math.abs(winchPower) < 0.05)
+      winchPower = 0;
+    if (Math.abs(hookPower) < 0.05)
+      hookPower = 0;
+
+    climber.moveWinch(winchPower);
+    climber.moveHook(hookPower);
   }
 
   @Override

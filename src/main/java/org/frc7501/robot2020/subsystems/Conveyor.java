@@ -5,6 +5,7 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 
 import org.frc7501.robot2020.Constants;
+import org.frc7501.utils.ThreadedColorSensor;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,20 +18,23 @@ public class Conveyor extends SubsystemBase {
   private final WPI_VictorSPX        motorTop    = new WPI_VictorSPX(Constants.Ports.CAN.victor_ConveyorTop);
 
   // Color sensor for indexing
-  private final ColorSensorV3 sensorBottom = new ColorSensorV3(I2C.Port.kMXP);
+  private final ThreadedColorSensor sensorBottom = new ThreadedColorSensor(new ColorSensorV3(I2C.Port.kMXP));
   
   // Color matching for power cells
   private static final Color POWER_CELL_COLOR = ColorMatch.makeColor(0.337, 0.546, 0.117);
   private final ColorMatch powerCellMatcher = new ColorMatch();
 
   public Conveyor() {
+    motorBottom.setInverted(true);
     powerCellMatcher.addColorMatch(POWER_CELL_COLOR);
   }
 
   public boolean sensorState() {
     var matched = powerCellMatcher.matchClosestColor(sensorBottom.getColor());
     var proximity = sensorBottom.getProximity();
-    return matched.color == POWER_CELL_COLOR && matched.confidence >= 0.95 && proximity >= 200;
+    SmartDashboard.putNumber("conv conf", matched.confidence);
+    SmartDashboard.putNumber("conv prox", proximity);
+    return matched.color == POWER_CELL_COLOR && matched.confidence >= 0.92 && proximity >= 148;
   }
 
   public void moveTop(double speed) {

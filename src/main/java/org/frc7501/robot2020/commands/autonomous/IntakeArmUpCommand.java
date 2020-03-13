@@ -11,7 +11,7 @@ public class IntakeArmUpCommand extends CommandBase {
   
   public IntakeArmUpCommand(IntakeArm intakeArm) {
     this.intakeArm = intakeArm;
-    boundaryController = new BoundaryController(-0.03, 1, 0.3, intakeArm::getPosition, intakeArm::move); // TODO: change correction to be more responsive
+    boundaryController = new BoundaryController(-0.03, 1, 0.5, intakeArm::getPosition, intakeArm::move); // TODO: change correction to be more responsive
     addRequirements(intakeArm);
   }
 

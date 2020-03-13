@@ -25,7 +25,7 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Limelight X", getRawXOffset());
+    SmartDashboard.putNumber("Limelight X", getNormalXOffset());
   }
 
   public boolean validTarget() {
@@ -36,6 +36,10 @@ public class Limelight extends SubsystemBase {
   public double getRawXOffset() {
     var tx = limelightTable.getEntry("tx").getDouble(0);
     return tx;
+  }
+
+  public double getNormalXOffset() {
+    return getRawXOffset() / 15.35; // TODO: make sure this is right
   }
 
   public double getRawYOffset() {

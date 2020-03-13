@@ -25,7 +25,7 @@ public class ConveyorIntakeCommand extends CommandBase {
     var sensor = conveyor.sensorState();
     if (sensor) {
       // Bottom sensor is triggered. Move both conveyors.
-      conveyor.move(0.5, 0.5);
+      conveyor.move(0.4, 0.5);
     } else {
       // Bottom is empty. Only move bottom (intake).
       conveyor.move(0, 0.5);

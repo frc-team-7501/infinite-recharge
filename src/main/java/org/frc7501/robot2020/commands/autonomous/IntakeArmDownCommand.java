@@ -11,7 +11,7 @@ public class IntakeArmDownCommand extends CommandBase {
   
   public IntakeArmDownCommand(IntakeArm intakeArm) {
     this.intakeArm = intakeArm;
-    boundaryController = new BoundaryController(-1, -0.36, 0.3, intakeArm::getPosition, intakeArm::move); // TODO: change correction to be more responsive
+    boundaryController = new BoundaryController(-1, -0.36, 0.5, intakeArm::getPosition, intakeArm::move); // TODO: change correction to be more responsive
     addRequirements(intakeArm);
   }
 

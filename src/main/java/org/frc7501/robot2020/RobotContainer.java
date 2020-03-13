@@ -57,8 +57,8 @@ public class RobotContainer {
   private final SequentialCommandGroup autonRight = new SequentialCommandGroup(
     new LimelightAlignTargetCommand(driveTrain, limelight),
     new ShooterFireCommand(shooter, conveyor),
-    new ScheduleCommand(new IntakeArmDownCommand(intakeArm)),
-    new ParallelDeadlineGroup(new WaitCommand(0.1), new TeleopDriveCommand(driveTrain, () -> 0.25, () -> 0, () -> false, () -> 1))
+    // new ScheduleCommand(new IntakeArmDownCommand(intakeArm)),
+    new ParallelDeadlineGroup(new WaitCommand(0.4), new TeleopDriveCommand(driveTrain, () -> -0.35, () -> 0, () -> false, () -> 1))
   );
 
   public RobotContainer() {

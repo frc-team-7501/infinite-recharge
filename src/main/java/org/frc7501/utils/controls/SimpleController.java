@@ -69,9 +69,9 @@ public class SimpleController {
     var error = current - setpoint;
     double output;
     if (error > tolerance) {
-      output = kP * error - minOutput;
-    } else if (error < -tolerance) {
       output = kP * error + minOutput;
+    } else if (error < -tolerance) {
+      output = kP * error - minOutput;
     } else {
       output = 0;
     }

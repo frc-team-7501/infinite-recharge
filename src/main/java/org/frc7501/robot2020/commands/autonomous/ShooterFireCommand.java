@@ -17,7 +17,7 @@ public class ShooterFireCommand extends SequentialCommandGroup {
     super(
       // Back off the conveyor
       new ParallelDeadlineGroup(
-        new WaitCommand(0.2),
+        new WaitCommand(0.35),
         new Command() {
           @Override
           public Set<Subsystem> getRequirements() {
@@ -49,23 +49,27 @@ public class ShooterFireCommand extends SequentialCommandGroup {
             shooter.stop();
           }
         },
-        // Feed the conveyor for 2.0 seconds
-        new ParallelRaceGroup(
-          new WaitCommand(2.0),
-          new Command() {
-            @Override
-            public Set<Subsystem> getRequirements() {
-              return Set.of(conveyor);
+        new SequentialCommandGroup(
+          // Let the shooter spin up
+          new WaitCommand(1),
+          // Feed the conveyor for 2.0 seconds
+          new ParallelDeadlineGroup(
+            new WaitCommand(3.0),
+            new Command() {
+              @Override
+              public Set<Subsystem> getRequirements() {
+                return Set.of(conveyor);
+              }
+              @Override
+              public void execute() {
+                conveyor.move(0.35, 0.5);
+              }
+              @Override
+              public void end(boolean interrupted) {
+                conveyor.stop();
+              }
             }
-            @Override
-            public void execute() {
-              conveyor.move(0.5, 0.5);
-            }
-            @Override
-            public void end(boolean interrupted) {
-              conveyor.stop();
-            }
-          }
+          )
         )
       )
     );
