@@ -28,7 +28,7 @@ public class LimelightAlignTargetCommand extends PIDCommand {
     addRequirements(driveTrain, limelight);
 
     // Tune the PID
-    getController().setTolerance(0.03);
+    getController().setTolerance(0.01);
   }
 
   @Override
