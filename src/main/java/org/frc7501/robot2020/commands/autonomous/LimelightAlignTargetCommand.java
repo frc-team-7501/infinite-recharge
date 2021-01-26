@@ -16,7 +16,7 @@ public class LimelightAlignTargetCommand extends PIDCommand {
       // PID controller
       new PIDController(0.4, 0.475, 0.12),
       // Measurement
-      () -> limelight.validTarget() ? limelight.getNormalXOffset() : 0.4,
+      () -> limelight.validTarget() ? limelight.getNormalXOffset() -0.11 : 0.4,
       // The PID setpoint (0 so we can center the bot)
       () -> 0,
       // Output consumer

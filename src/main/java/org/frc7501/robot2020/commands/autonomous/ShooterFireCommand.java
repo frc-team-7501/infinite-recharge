@@ -54,7 +54,7 @@ public class ShooterFireCommand extends SequentialCommandGroup {
           new WaitCommand(1),
           // Feed the conveyor for 2.0 seconds
           new ParallelDeadlineGroup(
-            new WaitCommand(3.0),
+            new WaitCommand(5.0),
             new Command() {
               @Override
               public Set<Subsystem> getRequirements() {
@@ -62,7 +62,7 @@ public class ShooterFireCommand extends SequentialCommandGroup {
               }
               @Override
               public void execute() {
-                conveyor.move(0.35, 0.5);
+                conveyor.move(0.2, 0.5);
               }
               @Override
               public void end(boolean interrupted) {
