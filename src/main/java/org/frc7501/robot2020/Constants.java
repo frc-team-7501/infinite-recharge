@@ -21,6 +21,9 @@ public final class Constants {
       public static final int victor_ConveyorTop    = 5;
       public static final int victor_ConveyorBottom = 6;
 
+     // Misc. CAN devices
+      public static final int pigeonIMU             = 20;
+
       // Spark MAX
       public static final int sparkmax_ShooterR     = 41;
       public static final int sparkmax_ShooterL     = 42;
@@ -29,8 +32,6 @@ public final class Constants {
       public static final int sparkmax_Winch        = 45;
       public static final int sparkmax_HookLift     = 46;
 
-      // Misc. CAN devices
-      public static final int pigeonIMU             = 50;
     }
   }
 }

@@ -6,8 +6,10 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import org.frc7501.robot2020.Constants;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -17,7 +19,9 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_VictorSPX motorFL, motorFR, motorBL, motorBR;
   private final SpeedControllerGroup groupL, groupR;
   private final DifferentialDrive differentialDrive;
-  private PigeonIMU pigeonIMU = new PigeonIMU(Constants.Ports.CAN.pigeonIMU);
+  private final PigeonIMU pigeonIMU = new PigeonIMU(Constants.Ports.CAN.pigeonIMU);
+  private final Encoder encoderRight = new Encoder(0,1);
+  private final Encoder encoderLeft = new Encoder(2,3);
   
   public DriveTrain() {
     // Initialize motor controllers
@@ -58,6 +62,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
+  public void periodic() { 
+    SmartDashboard.putNumber("Yaw", getGyroYaw());
+    SmartDashboard.putNumber("EncoderR", encoderRight.getDistance());
+    SmartDashboard.putNumber("EncoderL", encoderLeft.getDistance());
   }
 }

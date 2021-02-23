@@ -3,6 +3,7 @@ package org.frc7501.robot2020;
 import org.frc7501.robot2020.commands.autonomous.ControlPanelPositionCommand;
 import org.frc7501.robot2020.commands.autonomous.ControlPanelRotationCommand;
 import org.frc7501.robot2020.commands.autonomous.ConveyorIntakeCommand;
+import org.frc7501.robot2020.commands.autonomous.DriveTrainTurnCommand;
 import org.frc7501.robot2020.commands.autonomous.IntakeArmDownCommand;
 import org.frc7501.robot2020.commands.autonomous.IntakeArmUpCommand;
 import org.frc7501.robot2020.commands.autonomous.LimelightAlignTargetCommand;
@@ -56,9 +57,10 @@ public class RobotContainer {
   // Autonomous
   private final SequentialCommandGroup autonRight = new SequentialCommandGroup(
     new LimelightAlignTargetCommand(driveTrain, limelight),
-    new ShooterFireCommand(shooter, conveyor),
+    new ShooterFireCommand(shooter, conveyor)
     // new ScheduleCommand(new IntakeArmDownCommand(intakeArm)),
-    new ParallelDeadlineGroup(new WaitCommand(0.4), new TeleopDriveCommand(driveTrain, () -> -0.35, () -> 0, () -> false, () -> 1))
+    //new ParallelDeadlineGroup(new WaitCommand(0.4), new TeleopDriveCommand(driveTrain, () -> -0.35, () -> 0, () -> false, () -> 1))
+    
   );
 
   public RobotContainer() {
@@ -105,6 +107,8 @@ public class RobotContainer {
       .whenPressed(controlPanelPositionCommand);
     controllerButton_Start
       .whenPressed(controlPanelRotationCommand);
+      controllerButton_X
+      .whenPressed(new DriveTrainTurnCommand(driveTrain, -90));
   }
 
   /**
