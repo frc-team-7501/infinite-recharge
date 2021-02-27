@@ -8,22 +8,24 @@
 package org.frc7501.robot2020.commands.autonomous;
 
 import org.frc7501.robot2020.subsystems.DriveTrain;
-import org.frc7501.utils.controls.SimpleController;
+import org.frc7501.utils.controls.SimpleControllerSlow;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+// Change to PIDCommand
 public class DriveTrainTurnCommand extends CommandBase {
-  private final SimpleController controller;
+  private final SimpleControllerSlow controller;
   private final DriveTrain driveTrain;
   private double relativeSetpoint = 0;
 
   public DriveTrainTurnCommand(DriveTrain driveTrain, double setpoint) {
     this.driveTrain = driveTrain;
     this.relativeSetpoint = setpoint;
-    controller = new SimpleController(0.05, 0.05, driveTrain::getGyroYaw,
-        (output) -> driveTrain.curvatureDrive(0, output, true));
+    addRequirements(driveTrain);
+    controller = new SimpleControllerSlow(0.008, 0.09, driveTrain::getGyroYaw,
+        (output) -> driveTrain.curvatureDrive(0, output, true), 0.35);
 
-    controller.setTolerance(5);
+    controller.setTolerance(1);
   }
 
   @Override

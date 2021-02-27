@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
-    if (autonomousCommand != null) {
+    if (autonomousCommand != null) { 
       autonomousCommand.schedule();
     }
   }

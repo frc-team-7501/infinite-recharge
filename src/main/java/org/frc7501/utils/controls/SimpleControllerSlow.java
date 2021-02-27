@@ -5,21 +5,23 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SimpleController {
+public class SimpleControllerSlow {
   protected boolean enabled = false;
   protected double setpoint = 0;
   protected double tolerance = 0;
   protected double kP;
   protected double minOutput;
+  protected double maxSpeed;
 
   protected final DoubleSupplier inputSupplier;
   protected final DoubleConsumer outputConsumer;
   
-  public SimpleController(double kP, double minOutput, DoubleSupplier inputSupplier, DoubleConsumer outputConsumer) {
+  public SimpleControllerSlow(double kP, double minOutput, DoubleSupplier inputSupplier, DoubleConsumer outputConsumer, double maxSpeed) {
     this.inputSupplier = inputSupplier;
     this.outputConsumer = outputConsumer;
     this.kP = kP;
     this.minOutput = minOutput;
+    this.maxSpeed = maxSpeed;
   }
 
   public void disable() {
@@ -75,11 +77,18 @@ public class SimpleController {
 
     double output;
     if (error > tolerance) {
-      output = (kP * error + minOutput) * 0.028;
+      output = (kP * error + minOutput);
     } else if (error < -tolerance) {
-      output = (kP * error - minOutput) * 0.028;
+      output = (kP * error - minOutput);
     } else {
       output = 0;
+    }
+    
+    // Limit output speed to between 0.5 and -0.5
+    if (output > maxSpeed) {
+      output = maxSpeed; 
+    } else if (output < maxSpeed * -1) {
+      output = maxSpeed * -1; 
     }
     outputConsumer.accept(output);
   }

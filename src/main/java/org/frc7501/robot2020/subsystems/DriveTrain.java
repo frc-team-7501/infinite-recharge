@@ -20,9 +20,9 @@ public class DriveTrain extends SubsystemBase {
   private final SpeedControllerGroup groupL, groupR;
   private final DifferentialDrive differentialDrive;
   private final PigeonIMU pigeonIMU = new PigeonIMU(Constants.Ports.CAN.pigeonIMU);
-  private final Encoder encoderRight = new Encoder(0,1);
-  private final Encoder encoderLeft = new Encoder(2,3);
-  
+  private final Encoder encoderRight = new Encoder(0, 1);
+  private final Encoder encoderLeft = new Encoder(2, 3);
+
   public DriveTrain() {
     // Initialize motor controllers
     motorFL = new WPI_VictorSPX(Constants.Ports.CAN.victor_DriveFL);
@@ -35,10 +35,8 @@ public class DriveTrain extends SubsystemBase {
     motorFR.configFactoryDefault();
     motorBL.configFactoryDefault();
     motorBR.configFactoryDefault();
-    motorFL.setNeutralMode(NeutralMode.Coast);
-    motorFR.setNeutralMode(NeutralMode.Coast);
-    motorBL.setNeutralMode(NeutralMode.Coast);
-    motorBR.setNeutralMode(NeutralMode.Coast);
+
+    setBrakeMode(false);
 
     // Create groups and DifferentialDrive
     groupL = new SpeedControllerGroup(motorFL, motorBL);
@@ -46,15 +44,37 @@ public class DriveTrain extends SubsystemBase {
 
     differentialDrive = new DifferentialDrive(groupL, groupR);
   }
-
+  public void setBrakeMode(boolean brake) {
+     motorFL.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+     motorFR.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+     motorBL.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+     motorBR.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+  }
   public void curvatureDrive(final double y, final double z, final boolean isQuickTurn) {
     differentialDrive.curvatureDrive(y, z, isQuickTurn);
+    SmartDashboard.putNumber("curveY", y);
+    SmartDashboard.putNumber("curveZ", z);
+    SmartDashboard.putBoolean("curveQT", isQuickTurn);
   }
 
   public void stop() {
     differentialDrive.stopMotor();
   }
-  
+
+  // Returns Left Encoder current distance
+public double getLeftDistance() {
+    double LeftD = 0;
+    LeftD = encoderLeft.getDistance();
+    return LeftD;  
+}
+
+ // Returns Right Encoder current distance
+ public double getRightDistance() {
+  double RightD = 0;
+  RightD = encoderRight.getDistance();
+  return RightD;  
+ }
+
   public double getGyroYaw() {
     double[] ypr = new double[3];
     pigeonIMU.getYawPitchRoll(ypr);
@@ -62,7 +82,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   @Override
-  public void periodic() { 
+  public void periodic() {
     SmartDashboard.putNumber("Yaw", getGyroYaw());
     SmartDashboard.putNumber("EncoderR", encoderRight.getDistance());
     SmartDashboard.putNumber("EncoderL", encoderLeft.getDistance());

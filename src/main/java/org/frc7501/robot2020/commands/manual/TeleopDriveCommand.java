@@ -24,6 +24,7 @@ public class TeleopDriveCommand extends CommandBase {
 
   @Override
   public void initialize() {
+    driveTrain.setBrakeMode(false);
   }
 
   @Override
