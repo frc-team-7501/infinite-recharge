@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 public class LimelightAlignTargetCommand extends PIDCommand {
-  // private final DriveTrain driveTrain;
   private final Limelight limelight;
   
   public LimelightAlignTargetCommand(DriveTrain driveTrain, Limelight limelight) {
