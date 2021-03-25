@@ -59,8 +59,14 @@ public class RobotContainer {
   private final TeleopDriveCommand teleopDriveCommand = new TeleopDriveCommand(driveTrain, () -> -stick.getY(),
       () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
 
+  // Auton variable
+  private double whichAuton = 0;
+
+
   // Autonomous
-  private final Command autonRight = new SequentialCommandGroup(
+
+  // Competition Auton 
+  private final Command auton0 = new SequentialCommandGroup(
       new ShooterFireCommand(shooter, conveyor),
       new InstantCommand(() -> driveTrain.setBrakeMode(true)), 
       new DriveTrainTurnPIDCommand(driveTrain, -90),
@@ -78,11 +84,32 @@ public class RobotContainer {
       new LimelightAlignTargetCommand(driveTrain, limelight),
       new DriveTrainMoveCommand(driveTrain, 0, 0),
       new ShooterFireCommand(shooter, conveyor)
+  );
 
+  // AutoNav challenge 1 (Barrel Racing Path)
+  private final Command auton1 = new SequentialCommandGroup(
+    new DriveTrainMoveCommand(driveTrain, 2250, 0.6),
+    new DriveTrainTurnPIDCommand(driveTrain, -90),
+    new DriveTrainMoveCommand(driveTrain, 650, 0.4),
+    new DriveTrainTurnPIDCommand(driveTrain, -90),
+    new DriveTrainMoveCommand(driveTrain, 650, 0.4),
+    new DriveTrainTurnPIDCommand(driveTrain, -90),
+    new DriveTrainMoveCommand(driveTrain, 650, 0.4),
+    new DriveTrainTurnPIDCommand(driveTrain, -90),
+    new DriveTrainMoveCommand(driveTrain,2250 , 0.6)
 
-      // AutoNav challenges 
-      
-      // Challenge 3 - Bounce
+  );
+
+  // AutoNav challenge 2 (Slalom Path)
+  private final Command auton2 = new SequentialCommandGroup(
+  );
+  
+  // AutoNav challenge 3 (Bounce Path)
+  private final Command auton3 = new SequentialCommandGroup(
+  );
+
+  // Autonav Challenge 4 (Lightspeed Circuit Path)
+  private final Command auton4 = new SequentialCommandGroup(
   );
 
   public RobotContainer() {
@@ -140,6 +167,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // TODO: SendableChooser?
-    return autonRight;
+    whichAuton = 0; 
+
+    // Competition Auton
+    // if(whichAuton == 0) { 
+      // return auton0;
+    // }
+    return auton1;
   }
 }

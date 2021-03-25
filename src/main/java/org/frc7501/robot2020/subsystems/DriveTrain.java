@@ -43,6 +43,7 @@ public class DriveTrain extends SubsystemBase {
     groupR = new SpeedControllerGroup(motorFR, motorBR);
 
     differentialDrive = new DifferentialDrive(groupL, groupR);
+    differentialDrive.setSafetyEnabled(false);
   }
   public void setBrakeMode(boolean brake) {
      motorFL.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
