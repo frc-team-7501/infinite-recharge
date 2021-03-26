@@ -22,6 +22,8 @@ import org.frc7501.robot2020.subsystems.Limelight;
 import org.frc7501.robot2020.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -60,7 +62,7 @@ public class RobotContainer {
       () -> stick.getX(), () -> stick.getRawButton(1), () -> 1 - stick.getThrottle());
 
   // Auton variable
-  private double whichAuton = 0;
+  private SendableChooser<Command> autonChooser = new SendableChooser<>();
 
 
   // Autonomous
@@ -88,6 +90,7 @@ public class RobotContainer {
 
   // AutoNav challenge 1 (Barrel Racing Path)
   private final Command auton1 = new SequentialCommandGroup(
+    new InstantCommand(() -> driveTrain.setBrakeMode(true)), 
     new DriveTrainMoveCommand(driveTrain, 2250, 0.6),
     new DriveTrainTurnPIDCommand(driveTrain, -90),
     new DriveTrainMoveCommand(driveTrain, 650, 0.4),
@@ -106,6 +109,20 @@ public class RobotContainer {
   
   // AutoNav challenge 3 (Bounce Path)
   private final Command auton3 = new SequentialCommandGroup(
+    new InstantCommand(() -> driveTrain.setBrakeMode(true)), 
+    new DriveTrainMoveCommand(driveTrain, 675, 0.4),
+    new WaitCommand(.7),
+    new DriveTrainTurnPIDCommand(driveTrain, 90),
+    new WaitCommand(.7),
+    new DriveTrainMoveCommand(driveTrain, 630, 0.5),
+    new WaitCommand(.7),
+    new DriveTrainMoveCommand(driveTrain, -400, 0.5),
+    new WaitCommand(.7),
+    new DriveTrainTurnPIDCommand(driveTrain, 40),
+    new WaitCommand(.7),
+    new DriveTrainMoveCommand(driveTrain, -1000, 0.5),
+    new WaitCommand(.7),
+    new DriveTrainTurnPIDCommand(driveTrain, -60)
   );
 
   // Autonav Challenge 4 (Lightspeed Circuit Path)
@@ -115,6 +132,14 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
     setDefaultCommands();
+
+    autonChooser.setDefaultOption("Auton0(Competition auton)", auton0);
+    autonChooser.addOption("Auton1 (barrel race)", auton1);
+    autonChooser.addOption("Auton2 (Slalom Path)", auton2);
+    autonChooser.addOption("Auton3 (Bounce)", auton3);
+    autonChooser.addOption("Auton4 (Lightspeed Circuit)", auton4);
+
+    SmartDashboard.putData("auton", autonChooser);
   }
 
   /**
@@ -167,12 +192,16 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // TODO: SendableChooser?
-    whichAuton = 0; 
+    return autonChooser.getSelected();
+    // whichAuton = 0; 
 
     // Competition Auton
     // if(whichAuton == 0) { 
       // return auton0;
     // }
-    return auton1;
+    // return auton1;
+
+    // AutoNav 3 - Bounce
+    // return auton3; 
   }
 }

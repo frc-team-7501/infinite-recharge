@@ -53,9 +53,9 @@ public class DriveTrain extends SubsystemBase {
   }
   public void curvatureDrive(final double y, final double z, final boolean isQuickTurn) {
     differentialDrive.curvatureDrive(y, z, isQuickTurn);
-    SmartDashboard.putNumber("curveY", y);
-    SmartDashboard.putNumber("curveZ", z);
-    SmartDashboard.putBoolean("curveQT", isQuickTurn);
+    // SmartDashboard.putNumber("curveY", y);
+    // SmartDashboard.putNumber("curveZ", z);
+    // SmartDashboard.putBoolean("curveQT", isQuickTurn);
   }
 
   public void stop() {
@@ -85,7 +85,7 @@ public double getLeftDistance() {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Yaw", getGyroYaw());
-    SmartDashboard.putNumber("EncoderR", encoderRight.getDistance());
-    SmartDashboard.putNumber("EncoderL", encoderLeft.getDistance());
+    // SmartDashboard.putNumber("EncoderR", encoderRight.getDistance());
+    // SmartDashboard.putNumber("EncoderL", encoderLeft.getDistance());
   }
 }

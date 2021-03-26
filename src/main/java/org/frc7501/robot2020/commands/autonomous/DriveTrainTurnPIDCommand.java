@@ -18,7 +18,7 @@ private static double normalizedAngle(double angle) {
   public DriveTrainTurnPIDCommand(DriveTrain driveTrain, double setpoint) {
     super(
       // PID controller
-      new PIDController(0.0359, 0.003, 0.015),
+      new PIDController(0.031, 0.003, 0.015),
       // Measurement
       () -> normalizedAngle(driveTrain.getGyroYaw()), 
       // () -> limelight.validTarget() ? limelight.getNormalXOffset() -0.11 : 0.4,
@@ -42,7 +42,7 @@ getController().enableContinuousInput(0, 360);
     this.relativeSetpoint = setpoint;
 
     // Tune the PID
-    getController().setTolerance(0.8, 15);
+    getController().setTolerance(1, 15);
   }
 
   @Override
